@@ -12,6 +12,8 @@ export default {
        bgop : "#C1BAA1",
        dopHover: "#88816A",
         dop: "#6E6A5E",
+        light: "#F5F5F5",
+        dark: "#2D2D2D",
       },
     },
   },
