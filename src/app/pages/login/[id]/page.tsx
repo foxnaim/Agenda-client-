@@ -20,10 +20,10 @@ const Login = () => {
           </h1>
 
           <div className="mb-4 space-y-4">
+           <Input type="email" name="email" placeholder="Email" Icon={MdOutlineMail} />
           {!isSignUp && (
            <Input type="password" name="password" placeholder="Password" Icon={MdLockOutline} />
                )}
-            <Input type="email" name="email" placeholder="Email" Icon={MdOutlineMail} />
             
             {/* Кнопка входа/регистрации */}
             <div className="flex justify-center">
