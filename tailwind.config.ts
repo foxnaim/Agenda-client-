@@ -9,8 +9,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+       bgop : "#C1BAA1",
+       dopHover: "#88816A",
+        dop: "#6E6A5E",
       },
     },
   },
