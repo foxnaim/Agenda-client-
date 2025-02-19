@@ -1,7 +1,9 @@
 import React from "react";
-import { FaPaperclip, FaMicrophone, FaArrowUp } from "react-icons/fa";
-import { LuListTodo } from "react-icons/lu";
+import {FaMicrophone, FaArrowUp } from "react-icons/fa";
+import { LuListTodo, LuSend } from "react-icons/lu";
 import { MdHandshake } from "react-icons/md";
+import { FiPaperclip } from "react-icons/fi";
+
 
 type Props = {};
 
@@ -32,9 +34,9 @@ const AI = (props: Props) => {
 
           {/* Иконки */}
           <div className="flex gap-2 sm:gap-3 text-white text-xl">
-            <FaPaperclip className="cursor-pointer hover:text-gray-300 transition" />
+            <FiPaperclip className="cursor-pointer hover:text-gray-300 transition" />
             <FaMicrophone className="cursor-pointer hover:text-gray-300 transition" />
-            <FaArrowUp className="cursor-pointer hover:text-gray-300 transition" />
+            <LuSend className="cursor-pointer hover:text-gray-300 transition" />
           </div>
         </div>
       </div>
