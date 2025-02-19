@@ -9,4 +9,7 @@
   --light: #F5F5F5;
 }
 
-
+body{
+  background-color: var(--bgop);
+  color: var(--dark);
+}

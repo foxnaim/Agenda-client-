@@ -1,12 +1,13 @@
 import React from 'react'
-import Login from './pages/login/[id]/page'
+import Chat from './pages/Chat/page'
+
 
 
 
 const page = () => {
   return (
     <React.Fragment>
-     <Login/>
+      <Chat/>
     </React.Fragment>
   )
 }
