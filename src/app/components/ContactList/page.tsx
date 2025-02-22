@@ -1,13 +1,6 @@
 import React from "react";
 import Image, { StaticImageData }  from "next/image";
-
- type Contact = {
-  id: number;
-  name: string;
-  points: number;
-  avatar: string | StaticImageData; 
-  online: boolean;
-};
+import { Contact } from "./data/data";
 
 interface ContactListProps {
   contacts: Contact[];
