@@ -2,7 +2,10 @@
 
 import Header from "@/app/components/Header/Header";
 import Navigation from "@/app/components/NavBar/Navigation";
-import ContactList from "@/app/components/ContactList";
+import ContactList from "@/app/components/ContactList/page";
+import { FiPaperclip } from "react-icons/fi";
+import {FaMicrophone } from "react-icons/fa";
+import { LuSend } from "react-icons/lu";
 import React, { useState } from "react";
 import Image from "next/image";
 import { contacts, initialMessages, Message as MessageType } from "@/app/components/ContactList/data/data";
@@ -17,19 +20,28 @@ const Message = () => {
     setInputValue("");
   };
 
+
   return (
     <React.Fragment>
       <Header h1="Agenda" />
       <Navigation />
 
-      <div className="flex h-screen bg-[#A99C7F]">
+      <div className="flex max-h-screen items-center justify-center">
         {/* Контакты вынесли в компонент */}
         <ContactList contacts={contacts} />
+        
 
         {/* Окно чата */}
-        <div className="flex flex-col w-full max-w-2xl bg-[#978E6E] rounded-lg p-6 m-4">
+        <div className="flex flex-col w-full max-w-2xl max-h-screen bg-dop rounded-lg p-6 m-4">
           <div className="flex items-center mb-4">
-            <Image src={contacts[0].avatar} alt={contacts[0].name} width={40} height={40} className="rounded-full" />
+          <Image 
+  src={typeof contacts[0].avatar === "string" ? contacts[0].avatar : contacts[0].avatar.src} 
+  alt={contacts[0].name} 
+  width={40} 
+  height={40} 
+  className="rounded-full w-[50px] h-[50px]" 
+/>
+
             <div className="ml-3">
               <p className="text-white font-medium">{contacts[0].name}</p>
               <p className="text-gray-300 text-sm">{contacts[0].points} points</p>
@@ -37,12 +49,12 @@ const Message = () => {
             <span className="ml-auto bg-green-500 w-3 h-3 rounded-full" />
           </div>
 
-          <div className="flex-1 overflow-y-auto space-y-3 bg-[#A99C7F] p-4 rounded-lg">
+          <div className="flex-1 overflow-y-auto space-y-3 bg-bgop p-4 rounded-lg">
             {messages.map((msg) => (
               <div
                 key={msg.id}
                 className={`p-2 rounded-lg max-w-xs ${
-                  msg.sender === "user" ? "bg-gray-300 ml-auto" : "bg-gray-400"
+                  msg.sender === "user" ? "bg-gray-100 ml-auto" : "bg-gray-300"
                 }`}
               >
                 {msg.text}
@@ -60,9 +72,9 @@ const Message = () => {
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             />
-            <button onClick={sendMessage} className="ml-2 text-white">➤</button>
-            <button className="ml-2 text-white">🎤</button>
-            <button className="ml-2 text-white">📎</button>
+            <button onClick={sendMessage} className="ml-2 text-white"> <FiPaperclip className="cursor-pointer hover:text-gray-300 transition" /></button>
+            <button className="ml-2 text-white">  <FaMicrophone className="cursor-pointer hover:text-gray-300 transition" /></button>
+            <button className="ml-2 text-white"><LuSend className="cursor-pointer hover:text-gray-300 transition" /></button>
           </div>
         </div>
       </div>

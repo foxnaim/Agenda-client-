@@ -1,5 +1,5 @@
 import React from "react";
-import {FaMicrophone, FaArrowUp } from "react-icons/fa";
+import {FaMicrophone } from "react-icons/fa";
 import { LuListTodo, LuSend } from "react-icons/lu";
 import { MdHandshake } from "react-icons/md";
 import { FiPaperclip } from "react-icons/fi";
