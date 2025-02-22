@@ -1,5 +1,6 @@
 import React from 'react'
-import Chat from './pages/Chat/page'
+import Massage from './pages/Massage/page'
+
 
 
 
@@ -7,7 +8,7 @@ import Chat from './pages/Chat/page'
 const page = () => {
   return (
     <React.Fragment>
-      <Chat/>
+      <Massage/>
     </React.Fragment>
   )
 }
