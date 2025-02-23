@@ -4,22 +4,24 @@ import React, { useState } from "react";
 import { Plus, X } from "lucide-react";
 
 interface AddCardProps {
-  onAddTask: (task: { title: string; description: string; date: string }) => void;
+  onAddTask: (task: { title: string; description: string; startDate: string; endDate: string }) => void;
 }
 
 const AddCard: React.FC<AddCardProps> = ({ onAddTask }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const handleAddTask = () => {
-    if (title.trim() && date) {
-      onAddTask({ title, description, date });
+    if (title.trim() && startDate && endDate) {
+      onAddTask({ title, description, startDate, endDate });
       setIsOpen(false);
       setTitle("");
       setDescription("");
-      setDate("");
+      setStartDate("");
+      setEndDate("");
     }
   };
 
@@ -57,9 +59,17 @@ const AddCard: React.FC<AddCardProps> = ({ onAddTask }) => {
             />
             <input
               type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
               className="w-full p-2 border border-[#9C9278] rounded-md bg-transparent text-white mb-2"
+              placeholder="Дата начала"
+            />
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="w-full p-2 border border-[#9C9278] rounded-md bg-transparent text-white mb-2"
+              placeholder="Дата окончания"
             />
             <textarea
               placeholder="Описание"

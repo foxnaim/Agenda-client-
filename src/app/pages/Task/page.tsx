@@ -7,12 +7,12 @@ import Navigation from "@/app/components/SideBar/Navigation";
 
 const Task: React.FC = () => {
   const [tasks, setTasks] = useState([
-    { id: 1, title: "Agenda Ai", category: "Стартап", date: "15.02.2025" },
-    { id: 2, title: "Mobile dev", category: "Обучение", date: "15.12.2024" },
+    { id: 1, title: "Agenda Ai", category: "Стартап", startDate: "15.02.2025", endDate: "20.02.2025" },
+    { id: 2, title: "Mobile dev", category: "Обучение", startDate: "15.12.2024", endDate: "25.12.2024" },
   ]);
 
   // Функция добавления задачи
-  const handleAddTask = (task: { title: string; description: string; date: string }) => {
+  const handleAddTask = (task: { title: string; description: string; startDate: string; endDate: string }) => {
     setTasks([...tasks, { id: tasks.length + 1, ...task, category: "Не указано" }]);
   };
 
