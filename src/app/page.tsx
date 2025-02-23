@@ -1,14 +1,12 @@
 import React from 'react'
-import Massage from './pages/Massage/page'
-
-
+import Task from './pages/Task/page'
 
 
 
 const page = () => {
   return (
     <React.Fragment>
-      <Massage/>
+      <Task/>
     </React.Fragment>
   )
 }
