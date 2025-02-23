@@ -17,6 +17,8 @@ export type Contact = {
   online: boolean;
 };
 
+
+
 export const contacts: Contact[] = [
   { id: 1, name: "Jordan Maretti", points: 224, avatar: avatar.src,  online: true },
   { id: 2, name: "Lay Blaskovic", points: 156, avatar:avatar2.src, online: false },
