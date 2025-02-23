@@ -1,23 +1,30 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import TaskCard from "@/app/components/Task/TaskCard";
 import AddCard from "@/app/components/Task/AddCard";
 import Navigation from "@/app/components/SideBar/Navigation";
 
-const projects = [
-  { id: 1, title: "Agenda Ai", category: "Стартап", date: "15.02.2025" },
-  { id: 2, title: "Mobile dev", category: "Обучение", date: "15.12.2024" },
-];
-
 const Task: React.FC = () => {
+  const [tasks, setTasks] = useState([
+    { id: 1, title: "Agenda Ai", category: "Стартап", date: "15.02.2025" },
+    { id: 2, title: "Mobile dev", category: "Обучение", date: "15.12.2024" },
+  ]);
+
+  // Функция добавления задачи
+  const handleAddTask = (task: { title: string; description: string; date: string }) => {
+    setTasks([...tasks, { id: tasks.length + 1, ...task, category: "Не указано" }]);
+  };
+
   return (
     <div className="flex min-h-screen">
       <Navigation />
-      <div className="flex flex-1 justify-center items-center w-full px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6 max-w-[90%] md:max-w-[80%] lg:max-w-[60%] xl:max-w-[60%]">
-          {projects.map((project) => (
-            <TaskCard key={project.id} {...project} />
+      <div className="flex flex-1 justify-center items-center w-full px-4">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6 p-6 max-w-[1200px] mx-auto">
+          {tasks.map((task) => (
+            <TaskCard key={task.id} {...task} />
           ))}
-          <AddCard />
+          <AddCard onAddTask={handleAddTask} />
         </div>
       </div>
     </div>
