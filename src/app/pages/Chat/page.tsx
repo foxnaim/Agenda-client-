@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from '@/app/components/Header/Header'
-import Navigation from '@/app/components/NavBar/Navigation'
+import Navigation from '@/app/components/SideBar/Navigation'
 import AI from '@/app/components/AI/AI'
 
 

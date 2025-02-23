@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "@/app/components/Header/Header";
-import Navigation from "@/app/components/NavBar/Navigation";
+import Navigation from "@/app/components/SideBar/Navigation";
 import ContactList from "@/app/components/ContactList/page";
 import { FiPaperclip } from "react-icons/fi";
 import { FaMicrophone } from "react-icons/fa";
