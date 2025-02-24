@@ -1,12 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Edit } from "lucide-react";
-import { useRouter } from "next/navigation"; // ⬅️ Добавляем для навигации
+import { useRouter } from "next/navigation"; 
 import Navigation from "@/app/components/SideBar/Navigation";
-import AddTask from "@/app/components/Task/AddTask";
+import AddTask from "@/app/components/tasks/AddTask";
 
 interface Task {
-  id: number;
+  id: string;
   title: string;
 }
 
@@ -15,13 +15,28 @@ export default function AgendaTask() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [editValue, setEditValue] = useState<string>("");
-  const router = useRouter(); // ⬅️ Добавляем useRouter
+  const router = useRouter();
 
   useEffect(() => {
-    const savedTasks = localStorage.getItem("tasks");
-    if (savedTasks) {
-      setTasks(JSON.parse(savedTasks));
+    try {
+      const savedTasks = localStorage.getItem("tasks");
+      if (savedTasks) {
+        setTasks(JSON.parse(savedTasks));
+      }
+    } catch (error) {
+      console.error("Ошибка загрузки задач из localStorage", error);
+      setTasks([]);
     }
+  }, []);
+
+  useEffect(() => {
+    const syncTasks = (event: StorageEvent) => {
+      if (event.key === "tasks") {
+        setTasks(JSON.parse(event.newValue || "[]"));
+      }
+    };
+    window.addEventListener("storage", syncTasks);
+    return () => window.removeEventListener("storage", syncTasks);
   }, []);
 
   const saveTasks = (updatedTasks: Task[]) => {
@@ -30,7 +45,7 @@ export default function AgendaTask() {
   };
 
   const addTask = (title: string) => {
-    const newTask = { id: Date.now(), title };
+    const newTask = { id: crypto.randomUUID(), title };
     saveTasks([...tasks, newTask]);
   };
 
@@ -40,18 +55,23 @@ export default function AgendaTask() {
   };
 
   const updateTask = () => {
-    if (editingTask && editValue.trim()) {
+    if (!editingTask || editingTask.title === editValue.trim()) return;
+    
+    if (editValue.trim()) {
       const updatedTasks = tasks.map((task) =>
-        task.id === editingTask.id ? { ...task, title: editValue } : task
+        task.id === editingTask.id ? { ...task, title: editValue.trim() } : task
       );
       saveTasks(updatedTasks);
     }
+    
     setEditingTask(null);
   };
 
-  const deleteTask = (id: number) => {
-    const updatedTasks = tasks.filter((task) => task.id !== id);
-    saveTasks(updatedTasks);
+  const deleteTask = (id: string) => {
+    if (confirm("Вы уверены, что хотите удалить эту задачу?")) {
+      const updatedTasks = tasks.filter((task) => task.id !== id);
+      saveTasks(updatedTasks);
+    }
   };
 
   return (
@@ -66,7 +86,10 @@ export default function AgendaTask() {
             <div
               key={task.id}
               className="w-40 h-40 bg-dop hover:bg-dopHover cursor-pointer duration-300 text-white p-4 rounded-xl flex flex-col justify-center items-center text-center shadow-md relative"
-              onClick={() => router.push(`/tasks/${task.id}`)} // ⬅️ Переход на TaskPage
+              onClick={() => {
+                console.log("Navigating to:", `/tasks/${task.id}`);
+                router.push(`components/tasks/${task.id}`);
+              }}
             >
               {editingTask?.id === task.id ? (
                 <input
@@ -75,7 +98,13 @@ export default function AgendaTask() {
                   maxLength={30}
                   className="bg-transparent border-b border-white text-center focus:outline-none w-full"
                   onChange={(e) => setEditValue(e.target.value)}
-                  onBlur={updateTask}
+                  onBlur={() => {
+                    if (editValue.trim()) {
+                      updateTask();
+                    } else {
+                      setEditingTask(null);
+                    }
+                  }}
                   onKeyDown={(e) => e.key === "Enter" && updateTask()}
                   autoFocus
                 />
@@ -84,10 +113,10 @@ export default function AgendaTask() {
               )}
 
               <div className="absolute bottom-2 right-2 flex gap-2">
-                <button onClick={() => startEditing(task)} className="transition hover:text-gray-700">
+                <button onClick={(e) => { e.stopPropagation(); startEditing(task); }} className="transition hover:text-gray-700">
                   <Edit size={20} className="text-white" />
                 </button>
-                <button onClick={() => deleteTask(task.id)} className="transition hover:text-gray-700">
+                <button onClick={(e) => { e.stopPropagation(); deleteTask(task.id); }} className="transition hover:text-gray-700">
                   <Trash2 size={20} className="text-white" />
                 </button>
               </div>
