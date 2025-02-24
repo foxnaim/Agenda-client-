@@ -1,28 +1,47 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TaskCard from "@/app/components/Task/TaskCard";
 import AddCard from "@/app/components/Task/AddCard";
 import Navigation from "@/app/components/SideBar/Navigation";
 
-const Task: React.FC = () => {
-  const [tasks, setTasks] = useState([
-    { id: 1, title: "Agenda Ai", description: "Стартап", startDate: "15.02.2025", endDate: "20.02.2025" },
-    { id: 2, title: "Mobile dev", description: "Обучение", startDate: "15.12.2024", endDate: "25.12.2024" },
-  ]);
+interface Task {
+  id: number;
+  title: string;
+  description?: string;
+  startDate: string;
+  endDate: string;
+  status: "В работе" | "Выполнено" | "Просрочено";
+}
 
-  // Функция добавления задачи
-  const handleAddTask = (task: { title: string; description: string; startDate: string; endDate: string }) => {
-    setTasks([...tasks, { id: tasks.length + 1, ...task }]);
+const Task: React.FC = () => {
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    if (typeof window !== "undefined") {
+      const savedTasks = localStorage.getItem("tasks");
+      return savedTasks ? JSON.parse(savedTasks) : [];
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  const handleAddTask = (task: Omit<Task, "id" | "status">) => {
+    setTasks([...tasks, { id: tasks.length + 1, ...task, status: "В работе" }]);
+  };
+
+  const handleUpdateTask = (updatedTask: Task) => {
+    setTasks((prevTasks) => prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)));
   };
 
   return (
     <div className="flex min-h-screen">
       <Navigation />
       <div className="flex flex-1 justify-center items-center w-full px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 p-4 sm:p-6 max-w-[1200px] mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 p-4 sm:p-6 max-w-[1200px] mx-auto">
           {tasks.map((task) => (
-            <TaskCard key={task.id} {...task} />
+            <TaskCard key={task.id} {...task} onUpdate={handleUpdateTask} />
           ))}
           <AddCard onAddTask={handleAddTask} />
         </div>
@@ -32,4 +51,3 @@ const Task: React.FC = () => {
 };
 
 export default Task;
-
