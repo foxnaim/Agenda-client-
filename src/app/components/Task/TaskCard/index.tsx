@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { CheckCircle, Trash2 } from "lucide-react";
 
 interface TaskCardProps {
   id: number;
@@ -10,19 +11,19 @@ interface TaskCardProps {
   description?: string;
   status: "В работе" | "Выполнено" | "Просрочено";
   onUpdate: (task: TaskCardProps) => void;
+  onDelete: (id: number) => void;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ id, title, startDate, endDate, description, status, onUpdate }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ id, title, startDate, endDate, description, status, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(title);
   const [editedDescription, setEditedDescription] = useState(description || "");
-  
+
   const isExpired = new Date(endDate) < new Date() && status !== "Выполнено";
 
   const toggleEdit = () => {
     setIsEditing(!isEditing);
   };
-
   const saveEdit = () => {
    onUpdate({ 
      id, 
@@ -46,8 +47,6 @@ const TaskCard: React.FC<TaskCardProps> = ({ id, title, startDate, endDate, desc
    } as TaskCardProps);
  };
  
-
-
   return (
     <div className="w-[220px] min-h-[240px] bg-dop rounded-2xl flex flex-col justify-between p-4 shadow-lg border border-gray-700">
       {isEditing ? (
@@ -74,24 +73,29 @@ const TaskCard: React.FC<TaskCardProps> = ({ id, title, startDate, endDate, desc
         </div>
       )}
 
-      <p className="text-gray-300 text-xs font-semibold">
-        {startDate} - {endDate}
-      </p>
+     
 
-      <p className={`text-xs font-semibold mt-2 ${isExpired ? "text-red-500" : "text-green-500"}`}>
+      <p className={`text-xs font-semibold mt-2 ${isExpired ? "text-red-700" : "text-green-500"}`}>
         {isExpired ? "Просрочено" : status}
       </p>
 
-      <div className="flex gap-2 mt-2">
+      <div className="flex gap-2 mt-2 items-center">
         <button className="px-2 py-1 bg-yellow-500 text-white rounded-md text-xs" onClick={toggleEdit}>
           {isEditing ? "Отмена" : "Редактировать"}
         </button>
         {!isEditing && (
-          <button className="px-2 py-1 bg-blue-500 text-white rounded-md text-xs" onClick={toggleStatus}>
-            {status === "В работе" ? "Завершить" : "В работу"}
-          </button>
+          <label className="flex items-center cursor-pointer">
+            <input type="checkbox" checked={status === "Выполнено"} onChange={toggleStatus} className="hidden" />
+            <CheckCircle className={`w-6 h-6 ${status === "Выполнено" ? "text-green-500" : "text-gray-100"}`} />
+          </label>
         )}
+        <button onClick={() => onDelete(id)} className="text-gray-100 hover:text-red-700">
+          <Trash2 className="w-6 h-6" />
+        </button>
       </div>
+      <p className="text-gray-300 text-xs font-semibold">
+        {startDate} - {endDate}
+      </p>
     </div>
   );
 };

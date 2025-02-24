@@ -14,6 +14,9 @@ const AddCard: React.FC<AddCardProps> = ({ onAddTask }) => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  // Получаем сегодняшнюю дату в формате YYYY-MM-DD
+  const today = new Date().toISOString().split("T")[0];
+
   const handleAddTask = () => {
     if (title.trim() && startDate && endDate) {
       onAddTask({ title, description, startDate, endDate });
@@ -27,12 +30,15 @@ const AddCard: React.FC<AddCardProps> = ({ onAddTask }) => {
 
   return (
     <>
-      {/* Кнопка для открытия модального окна */}
-      <div
-        className="w-[180px] h-[180px] border-2 border-[#9C9278] rounded-2xl flex items-center justify-center cursor-pointer hover:bg-[#9C92781A] transition"
-        onClick={() => setIsOpen(true)}
-      >
-        <Plus size={40} color="#9C9278" />
+      {/* Контейнер, центрирующий кнопку */}
+      <div className="flex justify-center items-center w-full h-full min-h-[300px]">
+        {/* Кнопка для открытия модального окна */}
+        <div
+          className="w-[180px] h-[180px] border-2 border-transparent rounded-2xl flex items-center justify-center cursor-pointer hover:border-dopHover hover:bg-[#9C92781A] transition"
+          onClick={() => setIsOpen(true)}
+        >
+          <Plus size={40} color="#9C9278" className="transition" />
+        </div>
       </div>
 
       {/* Модальное окно */}
@@ -49,7 +55,7 @@ const AddCard: React.FC<AddCardProps> = ({ onAddTask }) => {
 
             <h2 className="text-white text-lg font-semibold mb-4">Добавить задачу</h2>
 
-            {/* Поля ввода с лейблами */}
+            {/* Поля ввода */}
             <div className="mb-2">
               <label className="text-gray-300 text-sm block mb-1">Название</label>
               <input
@@ -66,8 +72,12 @@ const AddCard: React.FC<AddCardProps> = ({ onAddTask }) => {
               <input
                 type="date"
                 value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+                onChange={(e) => {
+                  setStartDate(e.target.value);
+                  setEndDate(""); // Сбросить дату окончания, чтобы предотвратить ошибки
+                }}
                 className="w-full p-2 border border-[#9C9278] rounded-md bg-transparent text-white"
+                min={today} // Запрет выбора прошлых дат
               />
             </div>
 
@@ -78,6 +88,7 @@ const AddCard: React.FC<AddCardProps> = ({ onAddTask }) => {
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
                 className="w-full p-2 border border-[#9C9278] rounded-md bg-transparent text-white"
+                min={startDate || today} // Дата конца начинается не раньше даты начала
               />
             </div>
 
@@ -86,7 +97,7 @@ const AddCard: React.FC<AddCardProps> = ({ onAddTask }) => {
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full p-2 border border-[#9C9278] rounded-md bg-transparent text-white resize-none h-[80px]"
+                className="w-full p-2 border border-dopHover rounded-md bg-transparent text-white resize-none h-[80px]"
                 placeholder="Введите описание задачи"
               />
             </div>

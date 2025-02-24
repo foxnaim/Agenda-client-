@@ -9,11 +9,11 @@ export default {
   theme: {
     extend: {
       colors: {
-       bgop : "#C1BAA1",
-       dopHover: "#88816A",
-        dop: "#6E6A5E",
-        light: "#F5F5F5",
-        dark: "#2D2D2D",
+        bgop: "rgb(193, 186, 161)",
+        dopHover: "rgb(136, 129, 106)",
+        dop: "rgb(110, 106, 94)",
+        light: "rgb(245, 245, 245)",
+        dark: "rgb(45, 45, 45)",
       },
     },
   },

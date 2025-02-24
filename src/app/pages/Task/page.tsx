@@ -5,7 +5,7 @@ import TaskCard from "@/app/components/Task/TaskCard";
 import AddCard from "@/app/components/Task/AddCard";
 import Navigation from "@/app/components/SideBar/Navigation";
 
-interface Task {
+interface TaskType {
   id: number;
   title: string;
   description?: string;
@@ -14,8 +14,8 @@ interface Task {
   status: "В работе" | "Выполнено" | "Просрочено";
 }
 
-const Task: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>(() => {
+const TaskPage: React.FC = () => {
+  const [tasks, setTasks] = useState<TaskType[]>(() => {
     if (typeof window !== "undefined") {
       const savedTasks = localStorage.getItem("tasks");
       return savedTasks ? JSON.parse(savedTasks) : [];
@@ -27,12 +27,16 @@ const Task: React.FC = () => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  const handleAddTask = (task: Omit<Task, "id" | "status">) => {
+  const handleAddTask = (task: Omit<TaskType, "id" | "status">) => {
     setTasks([...tasks, { id: tasks.length + 1, ...task, status: "В работе" }]);
   };
 
-  const handleUpdateTask = (updatedTask: Task) => {
+  const handleUpdateTask = (updatedTask: TaskType) => {
     setTasks((prevTasks) => prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)));
+  };
+
+  const handleDeleteTask = (id: number) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
   return (
@@ -41,7 +45,7 @@ const Task: React.FC = () => {
       <div className="flex flex-1 justify-center items-center w-full px-4">
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 p-4 sm:p-6 max-w-[1200px] mx-auto">
           {tasks.map((task) => (
-            <TaskCard key={task.id} {...task} onUpdate={handleUpdateTask} />
+            <TaskCard key={task.id} {...task} onUpdate={handleUpdateTask} onDelete={handleDeleteTask} />
           ))}
           <AddCard onAddTask={handleAddTask} />
         </div>
@@ -50,4 +54,4 @@ const Task: React.FC = () => {
   );
 };
 
-export default Task;
+export default TaskPage;
