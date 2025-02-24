@@ -114,10 +114,10 @@ export default function AgendaTask() {
 
               <div className="absolute bottom-2 right-2 flex gap-2">
                 <button onClick={(e) => { e.stopPropagation(); startEditing(task); }} className="transition hover:text-gray-700">
-                  <Edit size={20} className="text-white" />
+                  <Edit size={23} className="text-white" />
                 </button>
                 <button onClick={(e) => { e.stopPropagation(); deleteTask(task.id); }} className="transition hover:text-gray-700">
-                  <Trash2 size={20} className="text-white" />
+                  <Trash2 size={23} className="text-white" />
                 </button>
               </div>
             </div>
