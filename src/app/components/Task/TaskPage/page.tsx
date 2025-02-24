@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import TaskCard from "@/app/components/Task/TaskCard";
-import AddCard from "@/app/components/Task/AddCard";
-import Navigation from "@/app/components/SideBar/Navigation";
+import { useParams } from "next/navigation"; // ⬅️ Получаем taskId из URL
+import TaskCard from "../TaskCard";
+import AddCard from "../AddCard";
+import Navigation from "../../SideBar/Navigation";
 
 interface TaskType {
   id: number;
@@ -12,23 +13,35 @@ interface TaskType {
   startDate: string;
   endDate: string;
   status: "В работе" | "Выполнено" | "Просрочено";
+  parentId?: number;
 }
 
 const TaskPage: React.FC = () => {
-  const [tasks, setTasks] = useState<TaskType[]>(() => {
-    if (typeof window !== "undefined") {
-      const savedTasks = localStorage.getItem("tasks");
-      return savedTasks ? JSON.parse(savedTasks) : [];
-    }
-    return [];
-  });
+  const { taskId } = useParams(); // ⬅️ Достаем ID задачи
+  const [tasks, setTasks] = useState<TaskType[]>([]);
+  const [mainTask, setMainTask] = useState<string>("");
 
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    const savedTasks = localStorage.getItem("tasks");
+    const savedSubTasks = localStorage.getItem("subtasks");
+
+    if (savedTasks) {
+      const parsedTasks = JSON.parse(savedTasks);
+      const task = parsedTasks.find((t: { id: number }) => t.id === Number(taskId));
+      if (task) setMainTask(task.title);
+    }
+
+    if (savedSubTasks) {
+      setTasks(JSON.parse(savedSubTasks).filter((t: TaskType) => t.parentId === Number(taskId)));
+    }
+  }, [taskId]);
+
+  useEffect(() => {
+    localStorage.setItem("subtasks", JSON.stringify(tasks));
   }, [tasks]);
 
   const handleAddTask = (task: Omit<TaskType, "id" | "status">) => {
-    setTasks([...tasks, { id: tasks.length + 1, ...task, status: "В работе" }]);
+    setTasks([...tasks, { id: Date.now(), ...task, parentId: Number(taskId), status: "В работе" }]);
   };
 
   const handleUpdateTask = (updatedTask: TaskType) => {
@@ -42,7 +55,9 @@ const TaskPage: React.FC = () => {
   return (
     <div className="flex min-h-screen">
       <Navigation />
-      <div className="flex flex-1 justify-center items-center w-full px-4">
+      <div className="flex flex-1 flex-col justify-center items-center w-full px-4">
+        <h1 className="text-2xl font-bold mb-4">Подзадачи для: {mainTask}</h1>
+
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 p-4 sm:p-6 max-w-[1200px] mx-auto">
           {tasks.map((task) => (
             <TaskCard key={task.id} {...task} onUpdate={handleUpdateTask} onDelete={handleDeleteTask} />
