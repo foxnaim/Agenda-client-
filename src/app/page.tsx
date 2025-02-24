@@ -1,12 +1,12 @@
 import React from 'react'
-import Task from './pages/Task/page'
+import AgendaTask from './pages/Task/page'
 
 
 
 const page = () => {
   return (
     <React.Fragment>
-      <Task/>
+      <AgendaTask/>
     </React.Fragment>
   )
 }
