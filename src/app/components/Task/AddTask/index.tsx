@@ -25,12 +25,12 @@ export default function AddTask({ onAddTask, onClose }: AddTaskProps) {
           <X size={20} />
         </button>
 
-        <h2 className="text-lg font-bold mb-4">Добавить задачу</h2>
+        <h2 className="text-lg font-bold mb-4">Краткое описание</h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
-            placeholder="Название задачи"
+            placeholder="Название (макс. 30 символов)"
             className="border p-2 rounded-lg"
             maxLength={30}
             value={title}
