@@ -11,11 +11,11 @@ const TaskDashboard  = () => {
   return (
    <React.Fragment>
     <Navigation/>
-    <div className='flex flex-row justify-end items-center gap-4'>
-     <div>
+    <div className='flex flex-row justify-between items-center '>
+     <div className='block ml-[200px]'>
     <MonthsDashboard/>
      </div>
-     <div>
+     <div className='block mr-3'>
       <div><Time/></div>
       <div><AgendaTask/></div>
      </div>
