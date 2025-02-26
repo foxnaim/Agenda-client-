@@ -10,7 +10,9 @@ const TaskDashboard  = (props: Props) => {
    <React.Fragment>
     <Navigation/>
     <div className='flex flex-row justify-end items-center gap-4'>
-     <div>slfxvndrfolvubrkvjberkvb</div>
+     <div>
+      {/*Dashboard*/}
+     </div>
      <div>
       <div><Time/></div>
       <div><AgendaTask/></div>
