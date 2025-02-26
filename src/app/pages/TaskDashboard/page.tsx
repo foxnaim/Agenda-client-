@@ -3,9 +3,9 @@ import AgendaTask from '@/app/components/tasks/TaskMenu/page'
 import Time from '@/app/components/Time'
 import React from 'react'
 
-type Props = {}
 
-const TaskDashboard  = (props: Props) => {
+
+const TaskDashboard  = () => {
   return (
    <React.Fragment>
     <Navigation/>
