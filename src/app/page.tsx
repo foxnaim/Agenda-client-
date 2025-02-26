@@ -1,12 +1,13 @@
 import React from 'react'
-import AgendaTask from './components/tasks/TaskMenu/page'
+import TaskDashboard from './pages/TaskDashboard/page'
+
 
 
 
 const page = () => {
   return (
     <React.Fragment>
-      <AgendaTask/>
+    <TaskDashboard/>
     </React.Fragment>
   )
 }

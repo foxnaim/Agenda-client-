@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Edit } from "lucide-react";
 import { useRouter } from "next/navigation"; 
-import Navigation from "@/app/components/SideBar/Navigation";
 import AddTask from "@/app/components/tasks/AddTask";
 
 interface Task {
@@ -75,11 +74,7 @@ export default function AgendaTask() {
   };
 
   return (
-    <div className="flex h-screen bg-bgop">
-      <div className="w-16 flex items-center">
-        <Navigation />
-      </div>
-
+    <div className=" bg-bgop">
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {tasks.map((task) => (

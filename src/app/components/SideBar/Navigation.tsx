@@ -5,7 +5,7 @@ import { CgProfile } from "react-icons/cg";
 
 const Navigation = () => {
   return (
-    <nav className="fixed left-0 top-1/2 -translate-y-1/2 flex flex-col justify-between items-center p-4 bg-dop w-[60px] h-[350px] rounded-r-3xl hover:w-[160px] duration-300">
+    <nav className="fixed left-2 top-1/2 -translate-y-1/2 flex flex-col justify-between items-center p-4 bg-dop w-[60px] h-[350px] rounded-r-3xl hover:w-[160px] duration-300">
       <ul className="text-white flex flex-col justify-around h-full w-full">
         <li className="hover:flex items-center gap-3 ">
           <TiHome className="size-7 text-white" /> 

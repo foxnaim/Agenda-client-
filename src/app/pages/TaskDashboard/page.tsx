@@ -1,11 +1,26 @@
+import Navigation from '@/app/components/SideBar/Navigation'
+import AgendaTask from '@/app/components/tasks/TaskMenu/page'
+import Time from '@/app/components/Time'
 import React from 'react'
 
 type Props = {}
 
-const page = (props: Props) => {
+const TaskDashboard  = (props: Props) => {
   return (
-    <div>page</div>
+   <React.Fragment>
+    <Navigation/>
+    <div>
+     <div>{/*Dashboard*/}</div>
+     <div>
+      <div>
+       {/*Time*/}
+       <Time/>
+      </div>
+      <div>{/*Task*/}</div>
+     </div>
+    </div>
+   </React.Fragment>
   )
 }
 
-export default page
+export default TaskDashboard
