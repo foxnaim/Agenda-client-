@@ -1,3 +1,5 @@
+import MonthsDashboard from '@/app/components/Dashboard/Dashboard12'
+import DashboardTask from '@/app/components/Dashboard/DashboardTask/page'
 import Navigation from '@/app/components/SideBar/Navigation'
 import AgendaTask from '@/app/components/tasks/TaskMenu/page'
 import Time from '@/app/components/Time'
@@ -11,7 +13,8 @@ const TaskDashboard  = () => {
     <Navigation/>
     <div className='flex flex-row justify-end items-center gap-4'>
      <div>
-      {/*Dashboard*/}
+     
+     <DashboardTask/>
      </div>
      <div>
       <div><Time/></div>
