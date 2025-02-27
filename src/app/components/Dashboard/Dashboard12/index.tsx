@@ -19,7 +19,7 @@ const defaultMonths = [
 ];
 
 const MonthsDashboard = () => {
-  const [tasks, setTasks] = useState<MonthlyTasks>({});
+  const [tasks, setTasks] = useState<MonthlyTasks | null>(null);
   const [newTask, setNewTask] = useState<{ [key: string]: string }>({});
   const [viewMode, setViewMode] = useState<"tasks" | "overview">("tasks");
   const [editingTask, setEditingTask] = useState<{ month: string; id: number } | null>(null);
@@ -37,8 +37,9 @@ const MonthsDashboard = () => {
   }, []);
 
   const handleAddTask = (month: string) => {
-    if (!newTask[month]?.trim()) return;
+    if (!newTask[month]?.trim() || !tasks) return;
     setTasks((prev) => {
+      if (!prev) return prev;
       const updated = {
         ...prev,
         [month]: {
@@ -53,7 +54,9 @@ const MonthsDashboard = () => {
   };
 
   const toggleTaskCompletion = (month: string, taskId: number) => {
+    if (!tasks) return;
     setTasks((prev) => {
+      if (!prev) return prev;
       const updated = {
         ...prev,
         [month]: {
@@ -69,7 +72,9 @@ const MonthsDashboard = () => {
   };
 
   const deleteTask = (month: string, taskId: number) => {
+    if (!tasks) return;
     setTasks((prev) => {
+      if (!prev) return prev;
       const updated = {
         ...prev,
         [month]: {
@@ -82,47 +87,8 @@ const MonthsDashboard = () => {
     });
   };
 
-  const startEditing = (month: string, taskId: number, title: string) => {
-    setEditingTask({ month, id: taskId });
-    setEditedTitle(title);
-  };
-
-  const saveEditedTask = () => {
-    if (!editingTask) return;
-    setTasks((prev) => {
-      const updated = {
-        ...prev,
-        [editingTask.month]: {
-          ...prev[editingTask.month],
-          tasks: prev[editingTask.month].tasks.map((task) =>
-            task.id === editingTask.id ? { ...task, title: editedTitle } : task
-          ),
-        },
-      };
-      localStorage.setItem("monthlyTasks", JSON.stringify(updated));
-      return updated;
-    });
-    setEditingTask(null);
-  };
-
-  const startEditingMonth = (month: string) => {
-    setEditingMonth(month);
-    setEditedMonthName(tasks[month]?.name || month);
-  };
-
-  const saveEditedMonth = (oldMonth: string) => {
-    setTasks((prev) => {
-      const updated = { ...prev };
-      updated[editedMonthName] = { ...prev[oldMonth], name: editedMonthName };
-      if (oldMonth !== editedMonthName) delete updated[oldMonth];
-      localStorage.setItem("monthlyTasks", JSON.stringify(updated));
-      return updated;
-    });
-    setEditingMonth(null);
-  };
-
   const saveAndSwitchView = () => {
-    localStorage.setItem("monthlyTasks", JSON.stringify(tasks));
+    if (tasks) localStorage.setItem("monthlyTasks", JSON.stringify(tasks));
     setViewMode("overview"); // Переключаемся на обзор
   };
 
@@ -139,80 +105,48 @@ const MonthsDashboard = () => {
           </button>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {Object.keys(tasks).map((month) => (
-              <div key={month} className="p-4 bg-dop rounded-lg shadow-md">
-                {editingMonth === month ? (
-                  <input
-                    type="text"
-                    value={editedMonthName}
-                    onChange={(e) => setEditedMonthName(e.target.value)}
-                    onBlur={() => saveEditedMonth(month)}
-                    onKeyDown={(e) => e.key === "Enter" && saveEditedMonth(month)}
-                    autoFocus
-                    className="w-full p-1 bg-gray-800 rounded border border-gray-600 focus:outline-none"
-                  />
-                ) : (
-                  <h3
-                    className="text-lg font-bold mb-2 cursor-pointer"
-                    onClick={() => startEditingMonth(month)}
-                  >
-                    {tasks[month]?.name || month}
-                  </h3>
-                )}
-
-                <ul>
-                  {tasks[month]?.tasks?.map((task) => (
-                    <li key={task.id} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={task.completed}
-                        onChange={() => toggleTaskCompletion(month, task.id)}
-                        className="w-5 h-5"
-                      />
-
-                      {editingTask?.id === task.id && editingTask.month === month ? (
+            {tasks && Object.keys(tasks).length > 0 ? (
+              Object.keys(tasks).map((month) => (
+                <div key={month} className="p-4 bg-dop rounded-lg shadow-md">
+                  <h3 className="text-lg font-bold mb-2">{tasks[month]?.name || month}</h3>
+                  <ul>
+                    {tasks[month]?.tasks?.map((task) => (
+                      <li key={task.id} className="flex items-center gap-2">
                         <input
-                          type="text"
-                          value={editedTitle}
-                          onChange={(e) => setEditedTitle(e.target.value)}
-                          onBlur={saveEditedTask}
-                          onKeyDown={(e) => e.key === "Enter" && saveEditedTask()}
-                          autoFocus
-                          className="w-full p-1 bg-gray-800 rounded border border-gray-600 focus:outline-none"
+                          type="checkbox"
+                          checked={task.completed}
+                          onChange={() => toggleTaskCompletion(month, task.id)}
+                          className="w-5 h-5"
                         />
-                      ) : (
-                        <span
-                          onClick={() => startEditing(month, task.id, task.title)}
-                          className={`cursor-pointer ${task.completed ? "line-through text-gray-500" : ""}`}
-                        >
+                        <span className={`cursor-pointer ${task.completed ? "line-through text-gray-500" : ""}`}>
                           {task.title}
                         </span>
-                      )}
-
-                      <button
-                        onClick={() => deleteTask(month, task.id)}
-                        className="ml-auto text-red-500 hover:text-red-700"
-                      >
-                        ✖
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-
-                <input
-                  type="text"
-                  value={newTask[month] || ""}
-                  onChange={(e) => setNewTask((prev) => ({ ...prev, [month]: e.target.value }))}
-                  onKeyDown={(e) => e.key === "Enter" && handleAddTask(month)}
-                  placeholder="Добавить задачу..."
-                  className="w-full p-2 bg-dop rounded border border-dop focus:outline-none"
-                />
-              </div>
-            ))}
+                        <button
+                          onClick={() => deleteTask(month, task.id)}
+                          className="ml-auto text-red-500 hover:text-red-700"
+                        >
+                          ✖
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  <input
+                    type="text"
+                    value={newTask[month] || ""}
+                    onChange={(e) => setNewTask((prev) => ({ ...prev, [month]: e.target.value }))}
+                    onKeyDown={(e) => e.key === "Enter" && handleAddTask(month)}
+                    placeholder="Добавить задачу..."
+                    className="w-full p-2 bg-dop rounded border border-dop focus:outline-none"
+                  />
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-400">Задач пока нет</p>
+            )}
           </div>
         </>
       ) : (
-        <DashboardOverview tasks={tasks} setViewMode={setViewMode} />
+        tasks && <DashboardOverview tasks={tasks} setViewMode={setViewMode} />
       )}
     </div>
   );
