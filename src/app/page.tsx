@@ -1,5 +1,6 @@
 import React from 'react'
-import TaskDashboard from './pages/TaskDashboard/page'
+import Profile from './pages/Profile/page'
+
 
 
 
@@ -7,7 +8,7 @@ import TaskDashboard from './pages/TaskDashboard/page'
 const page = () => {
   return (
     <React.Fragment>
-    <TaskDashboard/>
+      <Profile/>
     </React.Fragment>
   )
 }
