@@ -75,13 +75,13 @@ export default function AgendaTask() {
   };
 
   return (
-    <div className=" bg-bgop">
-      <div className="flex-1 flex  items-center justify-center p-6">
-        <div className=" grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="bg-bgop p-6">
+      <div className="flex-1 flex-col items-center justify-center">
+      <div className="flex flex-col gap-3">
           {tasks.map((task) => (
             <div
               key={task.id}
-              className="w-40 h-40 bg-dop hover:bg-dopHover cursor-pointer duration-300 text-white p-4 rounded-xl flex flex-col justify-center items-center text-center shadow-md relative"
+              className="w-40 h-40 bg-dop hover:bg-dopHover cursor-pointer duration-300 text-white p-5 rounded-xl flex flex-col justify-center items-center text-center shadow-md relative"
               onClick={() => {
                 console.log("Navigating to:", `/tasks/${task.id}`);
                 router.push(`components/tasks/${task.id}`);
