@@ -60,7 +60,7 @@ const Navigation = () => {
             <ul className="absolute left-14 top-10 bg-dop text-white text-sm rounded-lg shadow-md py-2 w-32">
               <li 
                 className="p-2 hover:bg-dopHover cursor-pointer"
-                onClick={() => router.push("/profile")}
+                onClick={() => router.push("Profile")}
               >
                 Профиль
               </li>

@@ -1,5 +1,6 @@
 import React from 'react'
-import Profile from './pages/Profile/page'
+import Navigation from './components/SideBar/Navigation'
+
 
 
 
@@ -8,7 +9,7 @@ import Profile from './pages/Profile/page'
 const page = () => {
   return (
     <React.Fragment>
-      <Profile/>
+     <Navigation/>
     </React.Fragment>
   )
 }
