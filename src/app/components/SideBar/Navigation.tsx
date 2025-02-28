@@ -1,11 +1,30 @@
-"use client"
+"use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { TiHome } from "react-icons/ti";
 import { FaTasks, FaUserFriends } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 
 const Navigation = () => {
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        router.push("/login"); // Перенаправление на страницу логина
+      } else {
+        console.error("Ошибка при выходе");
+      }
+    } catch (error) {
+      console.error("Ошибка сети:", error);
+    }
+  };
 
   return (
     <nav className="fixed left-2 top-1/2 -translate-y-1/2 flex flex-col items-center p-4 bg-dop w-[90px] h-[350px] rounded-3xl">
@@ -37,7 +56,12 @@ const Navigation = () => {
             <ul className="absolute left-14 top-10 bg-dop text-white text-sm rounded-lg shadow-md py-2 w-32">
               <li className="p-2 hover:bg-dopHover cursor-pointer">Профиль</li>
               <li className="p-2 hover:bg-dopHover cursor-pointer">Настройки</li>
-              <li className="p-2 hover:bg-red-500 cursor-pointer">Выйти</li>
+              <li
+                className="p-2 hover:bg-red-500 cursor-pointer"
+                onClick={handleLogout}
+              >
+                Выйти
+              </li>
             </ul>
           )}
         </li>
