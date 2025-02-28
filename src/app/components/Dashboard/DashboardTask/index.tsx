@@ -63,7 +63,7 @@ const DashboardOverview: React.FC<Props> = ({ tasks, setTasks, setViewMode }) =>
                       onChange={() => toggleTask(month, task.id)}
                       className="w-5 h-5 cursor-pointer"
                     />
-                    <span className={task.completed ? "line-through text-gray-500" : ""}>
+                    <span className={task.completed ? "line-through text-gray-900" : ""}>
                       {task.title}
                     </span>
                   </div>
@@ -73,7 +73,7 @@ const DashboardOverview: React.FC<Props> = ({ tasks, setTasks, setViewMode }) =>
         </div>
 
         {Object.values(tasks).every((month) => month.tasks.length === 0) && (
-          <p className="text-center text-gray-400 mt-4">Нет добавленных задач</p>
+          <p className="text-center text-gray-100 mt-4">Нет добавленных задач</p>
         )}
       </div>
     </div>
