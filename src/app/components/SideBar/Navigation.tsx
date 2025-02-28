@@ -58,10 +58,15 @@ const Navigation = () => {
           {/* Выпадающее меню */}
           {isProfileMenuOpen && (
             <ul className="absolute left-14 top-10 bg-dop text-white text-sm rounded-lg shadow-md py-2 w-32">
-              <li className="p-2 hover:bg-dopHover cursor-pointer">Профиль</li>
               <li 
                 className="p-2 hover:bg-dopHover cursor-pointer"
-                onClick={() => router.push("components/Setting")}
+                onClick={() => router.push("/profile")}
+              >
+                Профиль
+              </li>
+              <li 
+                className="p-2 hover:bg-dopHover cursor-pointer"
+                onClick={() => router.push("/settings")}
               >
                 Настройки
               </li>
