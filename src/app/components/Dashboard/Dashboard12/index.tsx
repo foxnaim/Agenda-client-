@@ -117,7 +117,7 @@ const MonthsDashboard = () => {
                         disabled
                         className="w-5 h-5 cursor-not-allowed opacity-50"
                       />
-                      <span className={`cursor-pointer ${task.completed ? "line-through text-gray-500" : ""}`}>
+                      <span className={`cursor-pointer ${task.completed ? "line-through text-gray-900" : ""}`}>
                         {task.title}
                       </span>
                       <button
