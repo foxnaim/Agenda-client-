@@ -49,8 +49,8 @@ const Profile = () => {
 
         {/* Аватар */}
         <div className="flex flex-col items-center mb-4">
-          <img src={avatar} alt="Аватар" className="w-24 h-24 rounded-full border-2 border-gray-500" />
-          <label className="mt-2 text-sm text-gray-400 cursor-pointer">
+          <img src={avatar} alt="Аватар" className="w-24 h-24 rounded-full border-2 border-gray-900" />
+          <label className="mt-2 text-sm text-gray-100 cursor-pointer">
             <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
             Изменить аватар
           </label>
@@ -94,7 +94,7 @@ const Profile = () => {
         {/* Кнопка сохранения */}
         <button
           onClick={handleSave}
-          className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition"
+          className="w-full bg-dop text-white p-2 rounded-lg hover:bg-dopHover transition"
         >
           Сохранить изменения
         </button>

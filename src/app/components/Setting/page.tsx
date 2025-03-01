@@ -113,7 +113,7 @@ const Settings = () => {
         {/* Кнопка сохранения */}
         <button
           onClick={handleSave}
-          className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition"
+          className="w-full bg-dop text-white p-2 rounded-lg hover:bg-dopHover transition"
         >
           Сохранить изменения
         </button>
