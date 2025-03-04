@@ -1,5 +1,7 @@
 import React from 'react'
 import Navigation from './components/SideBar/Navigation'
+import TaskDashboard from './pages/TaskDashboard/page'
+
 
 
 
@@ -9,7 +11,7 @@ import Navigation from './components/SideBar/Navigation'
 const page = () => {
   return (
     <React.Fragment>
-     <Navigation/>
+      <TaskDashboard/>
     </React.Fragment>
   )
 }
