@@ -13,7 +13,7 @@ const AI = (props: Props) => {
       <div className="w-full max-w-[700px] bg-dop p-4 rounded-2xl flex flex-col shadow-lg">
         {/* Текстовое поле */}
         <textarea
-          className="w-full bg-transparent text-white resize-none outline-none placeholder-gray-400 p-2"
+          className="w-full bg-transparent text-white resize-none outline-none placeholder-dopHover p-2"
           placeholder="Message Agenda..."
           rows={3}
         />
@@ -22,11 +22,11 @@ const AI = (props: Props) => {
         <div className="mt-4 flex justify-between items-center">
           {/* Кнопки действий */}
           <div className="flex gap-2 sm:gap-3">
-            <button className="flex items-center gap-2 text-white border border-gray-500 px-3 py-2 sm:px-4 sm:py-2 rounded-3xl hover:bg-gray-700 transition">
+            <button className="flex items-center gap-2 text-white border border-dopHover px-3 py-2 sm:px-4 sm:py-2 rounded-3xl hover:bg-gray-700 transition">
               <LuListTodo className="text-xl" /> 
               <span className="hidden sm:inline">Make a task</span>
             </button>
-            <button className="flex items-center gap-2 text-white border border-gray-500 px-3 py-2 sm:px-4 sm:py-2 rounded-3xl hover:bg-gray-700 transition">
+            <button className="flex items-center gap-2 text-white border border-dopHover px-3 py-2 sm:px-4 sm:py-2 rounded-3xl hover:bg-gray-700 transition">
               <MdHandshake className="text-xl" /> 
               <span className="hidden sm:inline">Own meeting</span>
             </button>

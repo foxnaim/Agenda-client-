@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --bgop: #C1BAA1;
-  --dop: #88816A;
+  --bgop: #293133;
+  --dop: #2ECC71;
   --dark: #2D2D2D;
   --light: #F5F5F5;
 }

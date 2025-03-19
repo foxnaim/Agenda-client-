@@ -120,7 +120,7 @@ export default function AgendaTask() {
           ))}
 
           <button
-            className="w-40 h-40 border-2 border-[#897F68] rounded-xl flex items-center justify-center hover:bg-[#9C92781A] transition"
+            className="w-40 h-40 border-2 border-dopHover rounded-xl flex items-center justify-center hover:bg-[#9C92781A] transition"
             onClick={() => setIsModalOpen(true)}
           >
             <Plus size={40} color="#897F68" />
