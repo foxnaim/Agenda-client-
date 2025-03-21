@@ -1,9 +1,10 @@
 import React from 'react'
-import Login from './pages/login/[id]/page'
+import TaskDashboard from './pages/TaskDashboard/page'
+
 const page = () => {
   return (
     <React.Fragment>
-     <Login/>
+     <TaskDashboard/>
     </React.Fragment>
   )
 }
