@@ -30,9 +30,9 @@ const Navigation = () => {
     <nav className="fixed left-2 top-1/2 -translate-y-1/2 flex flex-col items-center p-4 bg-dop w-[90px] h-[350px] rounded-3xl">
       <ul className="text-white flex flex-col gap-8 w-full">
         {[
-          { icon: <TiHome className="size-8" />, text: "Home", path: "/" },
-          { icon: <FaTasks className="size-8" />, text: "Задачи", path: "/tasks" },
-          { icon: <FaUserFriends className="size-8" />, text: "Друзья", path: "/friends" },
+          { icon: <TiHome className="size-8" />, text: "Home", path: "/Chat/page" },
+          { icon: <FaTasks className="size-8" />, text: "Задачи", path: "/task-dashboard" },
+          { icon: <FaUserFriends className="size-8" />, text: "Друзья", path: "/massage" },
         ].map((item, index) => (
           <li
             key={index}
@@ -70,7 +70,6 @@ const Navigation = () => {
               >
                 Настройки
               </li>
-
               <li
                 className="p-2 hover:bg-red-500 cursor-pointer"
                 onClick={handleLogout}
