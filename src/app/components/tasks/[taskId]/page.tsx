@@ -100,7 +100,7 @@ const TaskPage: React.FC = () => {
       <div className="flex flex-1 flex-col justify-center items-center w-full px-4">
         {/* Анимация заголовка */}
         <motion.h1
-          className="text-2xl font-bold mb-4"
+          className="text-2xl font-bold mb-4 text-light"
           initial="hidden"
           animate="visible"
           variants={titleVariants}

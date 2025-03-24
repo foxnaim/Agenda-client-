@@ -99,7 +99,7 @@ export default function AgendaTask() {
               variants={taskVariants}
               onClick={() => {
                 console.log("Navigating to:", `/tasks/${task.id}`);
-                router.push(`components/tasks/${task.id}`);
+                router.push(`/components/tasks/${task.id}`);
               }}
             >
               {editingTask?.id === task.id ? (
