@@ -32,7 +32,7 @@ const Navigation = () => {
         {[
           { icon: <TiHome className="size-8" />, text: "Home", path: "/" },
           { icon: <FaTasks className="size-8" />, text: "Задачи", path: "/../../pages/TaskDashboard" },
-          { icon: <FaUserFriends className="size-8" />, text: "Друзья", path: "/massage" },
+          { icon: <FaUserFriends className="size-8" />, text: "Друзья", path: "/../../pages/Chat" },
         ].map((item, index) => (
           <li
             key={index}
