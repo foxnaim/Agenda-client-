@@ -1,13 +1,15 @@
+import Link from 'next/link'
 import React from 'react'
-
 type Props = {
  h1: string,
+ button: string,
 }
 
 const Header = (props: Props) => {
   return (
-    <header>
-     <h1 className='text-center text-2xl mt-3'>{props.h1}</h1>
+    <header className='flex justify-end m-5'>
+     <h1 className='text-center text-2xl mt-3 text-light'>{props.h1}</h1>
+     <Link href="../../pages/login/"><button className='flex text-light border bodrer-dopHover rounded-xl p-2'>{props.button}</button></Link>
     </header>
   )
 }

@@ -27,7 +27,7 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <Header h1="Agenda" />
+      <Header h1="" button="Войти" />
       <Navigation />
       
       {/* Контейнер для выравнивания по центру */}
