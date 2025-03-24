@@ -1,5 +1,7 @@
 "use client";
+
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import Navigation from "../SideBar/Navigation";
 
 const Settings = () => {
@@ -53,14 +55,46 @@ const Settings = () => {
     }
   };
 
+  // Анимации для контейнера
+  const containerVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+  };
+
+  // Анимации для элементов формы
+  const inputVariants = {
+    hidden: { opacity: 0, x: -50 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5, delay: 0.2 } },
+  };
+
+  // Анимации для кнопки
+  const buttonVariants = {
+    hover: { scale: 1.05, backgroundColor: "#3B3B3B", transition: { duration: 0.2 } },
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-bgop text-white">
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="flex items-center justify-center min-h-screen bg-bgop text-white"
+    >
       <Navigation />
-      <div className="max-w-lg w-full p-6 bg-dopHover shadow-md rounded-lg">
+      <motion.div
+        className="max-w-lg w-full p-6 bg-dopHover shadow-md rounded-lg"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+      >
         <h2 className="text-2xl font-bold mb-4 text-center">Настройки</h2>
 
         {/* Имя пользователя */}
-        <div className="mb-4">
+        <motion.div
+          className="mb-4"
+          variants={inputVariants}
+          initial="hidden"
+          animate="visible"
+        >
           <label className="block text-white font-medium mb-2">Имя пользователя</label>
           <input
             type="text"
@@ -69,10 +103,15 @@ const Settings = () => {
             className="w-full p-2 border border-gray-600 rounded-lg bg-dop text-white placeholder-gray-400"
             placeholder="Введите имя"
           />
-        </div>
+        </motion.div>
 
         {/* Новый пароль */}
-        <div className="mb-4">
+        <motion.div
+          className="mb-4"
+          variants={inputVariants}
+          initial="hidden"
+          animate="visible"
+        >
           <label className="block text-white font-medium mb-2">Новый пароль</label>
           <input
             type="password"
@@ -85,10 +124,15 @@ const Settings = () => {
           <p className={`mt-1 text-sm ${passwordStrength === "Слабый" ? "text-red-500" : passwordStrength === "Средний" ? "text-yellow-500" : "text-green-500"}`}>
             {passwordStrength && `Сложность: ${passwordStrength}`}
           </p>
-        </div>
+        </motion.div>
 
         {/* Подтверждение пароля */}
-        <div className="mb-4">
+        <motion.div
+          className="mb-4"
+          variants={inputVariants}
+          initial="hidden"
+          animate="visible"
+        >
           <label className="block text-white font-medium mb-2">Подтвердите пароль</label>
           <input
             type="password"
@@ -97,10 +141,15 @@ const Settings = () => {
             className="w-full p-2 border border-gray-600 rounded-lg bg-dop text-white placeholder-gray-400"
             placeholder="Повторите пароль"
           />
-        </div>
+        </motion.div>
 
         {/* Уведомления */}
-        <div className="mb-6 flex items-center">
+        <motion.div
+          className="mb-6 flex items-center"
+          variants={inputVariants}
+          initial="hidden"
+          animate="visible"
+        >
           <input
             type="checkbox"
             checked={notifications}
@@ -108,17 +157,19 @@ const Settings = () => {
             className="mr-2"
           />
           <span className="text-white">Получать уведомления</span>
-        </div>
+        </motion.div>
 
         {/* Кнопка сохранения */}
-        <button
+        <motion.button
           onClick={handleSave}
           className="w-full bg-dop text-white p-2 rounded-lg hover:bg-dopHover transition"
+          variants={buttonVariants}
+          whileHover="hover"
         >
           Сохранить изменения
-        </button>
-      </div>
-    </div>
+        </motion.button>
+      </motion.div>
+    </motion.div>
   );
 };
 

@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Plus, Trash2, Edit } from "lucide-react";
-import { useRouter } from "next/navigation"; 
-
+import { useRouter } from "next/navigation";
 import AddTask from "@/app/components/tasks/AddTask";
 
 interface Task {
@@ -56,14 +56,14 @@ export default function AgendaTask() {
 
   const updateTask = () => {
     if (!editingTask || editingTask.title === editValue.trim()) return;
-    
+
     if (editValue.trim()) {
       const updatedTasks = tasks.map((task) =>
         task.id === editingTask.id ? { ...task, title: editValue.trim() } : task
       );
       saveTasks(updatedTasks);
     }
-    
+
     setEditingTask(null);
   };
 
@@ -74,14 +74,29 @@ export default function AgendaTask() {
     }
   };
 
+  // Анимации для карточек задач
+  const taskVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  };
+
   return (
     <div className="bg-bgop p-6">
       <div className="flex-1 flex-col items-center justify-center">
-      <div className="flex flex-col gap-3">
+        <motion.div
+          className="flex flex-col gap-3"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+          }}
+        >
           {tasks.map((task) => (
-            <div
+            <motion.div
               key={task.id}
               className="w-40 h-40 bg-dop hover:bg-dopHover cursor-pointer duration-300 text-white p-5 rounded-xl flex flex-col justify-center items-center text-center shadow-md relative"
+              variants={taskVariants}
               onClick={() => {
                 console.log("Navigating to:", `/tasks/${task.id}`);
                 router.push(`components/tasks/${task.id}`);
@@ -109,23 +124,36 @@ export default function AgendaTask() {
               )}
 
               <div className="absolute bottom-2 right-2 flex gap-2">
-                <button onClick={(e) => { e.stopPropagation(); startEditing(task); }} className="transition hover:text-gray-700">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    startEditing(task);
+                  }}
+                  className="transition hover:text-gray-700"
+                >
                   <Edit size={23} className="text-white" />
                 </button>
-                <button onClick={(e) => { e.stopPropagation(); deleteTask(task.id); }} className="transition hover:text-gray-700">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteTask(task.id);
+                  }}
+                  className="transition hover:text-gray-700"
+                >
                   <Trash2 size={23} className="text-white" />
                 </button>
               </div>
-            </div>
+            </motion.div>
           ))}
 
-          <button
+          <motion.button
             className="w-40 h-40 border-2 border-dopHover rounded-xl flex items-center justify-center hover:bg-[#9C92781A] transition"
             onClick={() => setIsModalOpen(true)}
+            variants={taskVariants}
           >
             <Plus size={40} color="#897F68" />
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </div>
 
       {isModalOpen && <AddTask onAddTask={addTask} onClose={() => setIsModalOpen(false)} />}
