@@ -9,7 +9,7 @@ const Header = (props: Props) => {
   return (
     <header className='flex justify-end m-5'>
      <h1 className='text-center text-2xl mt-3 text-light'>{props.h1}</h1>
-     <Link href="../../pages/login/"><button className='flex text-light border bodrer-dopHover rounded-xl p-2'>{props.button}</button></Link>
+     <Link href="../../pages/login/${id}"><button className='flex text-light border bodrer-dopHover rounded-xl p-2'>{props.button}</button></Link>
     </header>
   )
 }
