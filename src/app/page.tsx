@@ -1,11 +1,10 @@
 import React from 'react'
-
-import TaskDashboard from './pages/TaskDashboard/page'
+import Home from './pages/Home/page'
 
 const page = () => {
   return (
     <React.Fragment>
-     <TaskDashboard/>
+      <Home/>
     </React.Fragment>
   )
 }

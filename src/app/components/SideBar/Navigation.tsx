@@ -30,8 +30,8 @@ const Navigation = () => {
     <nav className="fixed left-2 top-1/2 -translate-y-1/2 flex flex-col items-center p-4 bg-dop w-[90px] h-[350px] rounded-3xl">
       <ul className="text-white flex flex-col gap-8 w-full">
         {[
-          { icon: <TiHome className="size-8" />, text: "Home", path: "/Chat/page" },
-          { icon: <FaTasks className="size-8" />, text: "Задачи", path: "/task-dashboard" },
+          { icon: <TiHome className="size-8" />, text: "Home", path: "/" },
+          { icon: <FaTasks className="size-8" />, text: "Задачи", path: "/../../pages/TaskDashboard" },
           { icon: <FaUserFriends className="size-8" />, text: "Друзья", path: "/massage" },
         ].map((item, index) => (
           <li
