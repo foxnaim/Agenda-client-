@@ -15,19 +15,26 @@ type TaskLists = {
 };
 
 const MonthsDashboard = () => {
-  const [tasks, setTasks] = useState<TaskLists>(() => {
-    const savedTasks = localStorage.getItem("taskLists");
-    return savedTasks ? JSON.parse(savedTasks) : {};
-  });
-
+  const [tasks, setTasks] = useState<TaskLists>({});
   const [newTask, setNewTask] = useState<{ [key: string]: string }>({});
   const [editingTask, setEditingTask] = useState<{ [key: string]: number | null }>({});
   const [taskEditText, setTaskEditText] = useState<{ [key: number]: string }>({});
   const [menuOpen, setMenuOpen] = useState<{ [key: string]: boolean }>({});
   const [deleteMenuOpen, setDeleteMenuOpen] = useState<{ [key: string]: boolean }>({});
 
+  // Загружаем задачи из localStorage при монтировании компонента
   useEffect(() => {
-    localStorage.setItem("taskLists", JSON.stringify(tasks));
+    if (typeof window !== "undefined") {
+      const savedTasks = localStorage.getItem("taskLists");
+      setTasks(savedTasks ? JSON.parse(savedTasks) : {});
+    }
+  }, []);
+
+  // Сохраняем задачи в localStorage при каждом обновлении tasks
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("taskLists", JSON.stringify(tasks));
+    }
   }, [tasks]);
 
   const handleAddTask = (list: string) => {
@@ -86,7 +93,9 @@ const MonthsDashboard = () => {
 
   return (
     <div className="p-6 min-h-screen text-white">
-      <h2 className="flex justify-center text-xl md:text-2xl lg:text-3xl font-bold mb-7">План задач</h2>
+      <h2 className="flex justify-center text-xl md:text-2xl lg:text-3xl font-bold mb-7">
+        План задач
+      </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {Object.entries(tasks).map(([list, data]) => (
           <motion.div
@@ -96,17 +105,48 @@ const MonthsDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <button onClick={() => setMenuOpen({ ...menuOpen, [list]: !menuOpen[list] })} className="absolute top-2 right-2 text-gray-400 hover:text-white">⋮</button>
+            <button
+              onClick={() =>
+                setMenuOpen({ ...menuOpen, [list]: !menuOpen[list] })
+              }
+              className="absolute top-2 right-2 text-gray-400 hover:text-white"
+            >
+              ⋮
+            </button>
             {menuOpen[list] && (
               <div className="absolute top-8 right-2 bg-gray-700 shadow-md rounded-lg p-2 text-sm">
-                <button onClick={() => setDeleteMenuOpen({ ...deleteMenuOpen, [list]: true })} className="block w-full text-left px-2 py-1 hover:bg-gray-600">Удалить</button>
-                <button onClick={() => startEditingTask(list, data.tasks[0]?.id, data.tasks[0]?.title)} className="block w-full text-left px-2 py-1 hover:bg-gray-600">Редактировать</button>
+                <button
+                  onClick={() =>
+                    setDeleteMenuOpen({ ...deleteMenuOpen, [list]: true })
+                  }
+                  className="block w-full text-left px-2 py-1 hover:bg-gray-600"
+                >
+                  Удалить
+                </button>
+                <button
+                  onClick={() =>
+                    startEditingTask(
+                      list,
+                      data.tasks[0]?.id,
+                      data.tasks[0]?.title
+                    )
+                  }
+                  className="block w-full text-left px-2 py-1 hover:bg-gray-600"
+                >
+                  Редактировать
+                </button>
               </div>
             )}
             {deleteMenuOpen[list] && (
               <div className="absolute top-12 right-2 bg-gray-700 shadow-md rounded-lg p-2 text-sm">
-                {data.tasks.map(task => (
-                  <button key={task.id} onClick={() => deleteTask(list, task.id)} className="block w-full text-left px-2 py-1 hover:bg-gray-600">Удалить {task.title}</button>
+                {data.tasks.map((task) => (
+                  <button
+                    key={task.id}
+                    onClick={() => deleteTask(list, task.id)}
+                    className="block w-full text-left px-2 py-1 hover:bg-gray-600"
+                  >
+                    Удалить {task.title}
+                  </button>
                 ))}
               </div>
             )}
@@ -118,7 +158,12 @@ const MonthsDashboard = () => {
                     <input
                       type="text"
                       value={taskEditText[task.id] || ""}
-                      onChange={(e) => setTaskEditText({ ...taskEditText, [task.id]: e.target.value })}
+                      onChange={(e) =>
+                        setTaskEditText({
+                          ...taskEditText,
+                          [task.id]: e.target.value,
+                        })
+                      }
                       onBlur={() => updateTask(list, task.id)}
                       className="w-full p-1 bg-dop rounded focus:outline-none"
                       autoFocus
@@ -126,7 +171,9 @@ const MonthsDashboard = () => {
                   ) : (
                     <span
                       className="cursor-pointer text-sm md:text-base"
-                      onClick={() => startEditingTask(list, task.id, task.title)}
+                      onClick={() =>
+                        startEditingTask(list, task.id, task.title)
+                      }
                     >
                       {task.title}
                     </span>
@@ -137,7 +184,9 @@ const MonthsDashboard = () => {
             <input
               type="text"
               value={newTask[list] || ""}
-              onChange={(e) => setNewTask((prev) => ({ ...prev, [list]: e.target.value }))}
+              onChange={(e) =>
+                setNewTask((prev) => ({ ...prev, [list]: e.target.value }))
+              }
               onKeyDown={(e) => e.key === "Enter" && handleAddTask(list)}
               placeholder="Добавить задачу..."
               className="w-full p-2 bg-dop rounded focus:outline-none text-sm md:text-base"
@@ -154,7 +203,11 @@ const MonthsDashboard = () => {
           ➕ Добавить лист
         </motion.button>
       </div>
-      <DashboardOverview tasks={tasks} setTasks={setTasks} setViewMode={() => {}} />
+      <DashboardOverview
+        tasks={tasks}
+        setTasks={setTasks}
+        setViewMode={() => {}}
+      />
     </div>
   );
 };
