@@ -6,6 +6,7 @@ import Button from "@/app/components/Button/Button";
 import Input from "@/app/components/Input/Input";
 import { MdOutlineMail, MdLockOutline } from "react-icons/md";
 import { CiLogin, CiUser } from "react-icons/ci";
+import { FaRegUserCircle } from "react-icons/fa";
 import Link from "next/link";
 import Google from "@/app/images/icon/Google.svg";
 
@@ -15,12 +16,20 @@ const Login = () => {
   // Анимации формы
   const formVariants = {
     hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: "easeOut" } },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
   };
 
   // Анимации для кнопок
   const buttonVariants = {
-    hover: { scale: 1.1, backgroundColor: "#3B3B3B", transition: { duration: 0.2 } },
+    hover: {
+      scale: 1.1,
+      backgroundColor: "#3B3B3B",
+      transition: { duration: 0.2 },
+    },
   };
 
   // Анимации правой части
@@ -44,9 +53,27 @@ const Login = () => {
           </h1>
 
           <div className="mb-4 space-y-4">
-            <Input type="email" name="email" placeholder="Email" Icon={MdOutlineMail} />
+            <Input
+              type="email"
+              name="email"
+              placeholder="Email"
+              Icon={MdOutlineMail}
+            />
             {!isSignUp && (
-              <Input type="password" name="password" placeholder="Password" Icon={MdLockOutline} />
+              <>
+                <Input
+                  type="firstName"
+                  name="firstName"
+                  placeholder="firstName"
+                  Icon={MdLockOutline}
+                />
+                <Input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  Icon={FaRegUserCircle}
+                />
+              </>
             )}
 
             {/* Кнопка входа/регистрации */}
@@ -91,7 +118,11 @@ const Login = () => {
             variants={buttonVariants}
             whileHover="hover"
           >
-            <Button name="Google" text="Sign in with Google" ImageSrc={Google} />
+            <Button
+              name="Google"
+              text="Sign in with Google"
+              ImageSrc={Google}
+            />
           </motion.div>
 
           {/* Переключение между входом и регистрацией */}
@@ -131,7 +162,8 @@ const Login = () => {
         variants={textVariants}
       >
         <p className="text-lg">
-          Hello, I am your assistant in implementing task assignment using my intelligence
+          Hello, I am your assistant in implementing task assignment using my
+          intelligence
         </p>
         <h1 className="text-5xl md:text-[6rem] font-bold mt-4">Agenda</h1>
         <p className="text-lg mt-2">Your assistant in task management</p>
