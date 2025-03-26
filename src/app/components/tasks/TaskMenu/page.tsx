@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Plus, Trash2, Edit } from "lucide-react";
+import { Plus, Trash2, Edit, MoreVertical } from "lucide-react";
 import { useRouter } from "next/navigation";
 import AddTask from "@/app/components/tasks/AddTask";
 
@@ -15,6 +15,8 @@ export default function AgendaTask() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [editValue, setEditValue] = useState<string>("");
+  const [menuOpen, setMenuOpen] = useState<string | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -37,6 +39,16 @@ export default function AgendaTask() {
     };
     window.addEventListener("storage", syncTasks);
     return () => window.removeEventListener("storage", syncTasks);
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const saveTasks = (updatedTasks: Task[]) => {
@@ -123,26 +135,49 @@ export default function AgendaTask() {
                 <h2 className="font-bold break-words w-full">{task.title}</h2>
               )}
 
-              <div className="absolute bottom-2 right-2 flex gap-2">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    startEditing(task);
-                  }}
-                  className="transition hover:text-gray-700"
+              {/* Кнопка меню */}
+              <button
+                className="absolute top-2 right-2 text-white hover:text-gray-400"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMenuOpen(menuOpen === task.id ? null : task.id);
+                }}
+              >
+                <MoreVertical size={23} />
+              </button>
+
+              {/* Выпадающее меню */}
+              {menuOpen === task.id && (
+                <motion.div
+                  ref={menuRef}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute top-8 right-2 bg-gray-900 p-2 rounded-lg shadow-lg w-32"
                 >
-                  <Edit size={23} className="text-white" />
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteTask(task.id);
-                  }}
-                  className="transition hover:text-gray-700"
-                >
-                  <Trash2 size={23} className="text-white" />
-                </button>
-              </div>
+                  <button
+                    className="flex items-center w-full text-white hover:text-blue-400 px-2 py-1"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      startEditing(task);
+                      setMenuOpen(null);
+                    }}
+                  >
+                    <Edit size={16} className="mr-2" /> Редактировать
+                  </button>
+                  <button
+                    className="flex items-center w-full text-white hover:text-red-400 px-2 py-1"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteTask(task.id);
+                      setMenuOpen(null);
+                    }}
+                  >
+                    <Trash2 size={16} className="mr-2" /> Удалить
+                  </button>
+                </motion.div>
+              )}
             </motion.div>
           ))}
 
