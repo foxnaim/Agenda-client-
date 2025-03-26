@@ -23,21 +23,6 @@ const Login = () => {
     },
   };
 
-  // Анимации для кнопок
-  const buttonVariants = {
-    hover: {
-      scale: 1.1,
-      backgroundColor: "#3B3B3B",
-      transition: { duration: 0.2 },
-    },
-  };
-
-  // Анимации правой части
-  const textVariants = {
-    hidden: { opacity: 0, x: 50 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
-  };
-
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
       {/* Левая часть */}
@@ -53,37 +38,16 @@ const Login = () => {
           </h1>
 
           <div className="mb-4 space-y-4">
-            <Input
-              type="email"
-              name="email"
-              placeholder="Email"
-              Icon={MdOutlineMail}
-            />
-            {!isSignUp && (
-              <>
-                <Input
-                  type="firstName"
-                  name="firstName"
-                  placeholder="firstName"
-                  Icon={MdLockOutline}
-                />
-                <Input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  Icon={FaRegUserCircle}
-                />
-              </>
+            <Input type="email" name="email" placeholder="Email" Icon={MdOutlineMail} />
+            {isSignUp && (
+              <Input type="text" name="firstName" placeholder="First Name" Icon={FaRegUserCircle} />
             )}
+            <Input type="password" name="password" placeholder="Password" Icon={MdLockOutline} />
 
             {/* Кнопка входа/регистрации */}
-            <motion.div
-              className="flex justify-center"
-              variants={buttonVariants}
-              whileHover="hover"
-            >
+            <motion.div className="flex justify-center" whileHover={{ scale: 1.1 }}>
               <Button
-                name={isSignUp ? "SignUp" : "Login"}
+                name={isSignUp ? "Sign Up" : "Login"}
                 text={isSignUp ? "Sign Up" : "Login"}
                 Icon={isSignUp ? CiUser : CiLogin}
                 fullWidth
@@ -91,10 +55,9 @@ const Login = () => {
             </motion.div>
           </div>
 
-          {/* Ссылки */}
           {!isSignUp && (
             <motion.div
-              className="flex justify-between text-sm mt-2 text-gray-600"
+              className="text-sm mt-2 text-gray-400"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
@@ -107,31 +70,23 @@ const Login = () => {
 
           {/* Разделитель */}
           <div className="flex items-center justify-center mt-6 gap-4">
-            <div className="border-t border-gray-300 w-16" />
-            <span className="text-gray-500">Or</span>
-            <div className="border-t border-gray-300 w-16" />
+            <div className="border-t border-gray-400 w-16" />
+            <span className="text-gray-400">Or</span>
+            <div className="border-t border-gray-400 w-16" />
           </div>
 
           {/* Кнопка Google */}
-          <motion.div
-            className="mt-4 flex justify-center"
-            variants={buttonVariants}
-            whileHover="hover"
-          >
-            <Button
-              name="Google"
-              text="Sign in with Google"
-              ImageSrc={Google}
-            />
+          <motion.div className="mt-4 flex justify-center" whileHover={{ scale: 1.1 }}>
+            <Button name="Google" text="Sign in with Google" ImageSrc={Google} />
           </motion.div>
 
           {/* Переключение между входом и регистрацией */}
-          <div className="mt-4 text-gray-600">
+          <div className="mt-4 text-gray-400">
             {isSignUp ? (
               <p>
                 Already have an account?
                 <motion.span
-                  className="text-blue-500 cursor-pointer hover:underline ml-1"
+                  className="text-blue-400 cursor-pointer hover:underline ml-1 inline-block"
                   onClick={() => setIsSignUp(false)}
                   whileHover={{ scale: 1.1 }}
                 >
@@ -142,7 +97,7 @@ const Login = () => {
               <p>
                 Don't have an account?
                 <motion.span
-                  className="text-blue-500 cursor-pointer hover:underline ml-1"
+                  className="text-blue-400 cursor-pointer hover:underline ml-1 inline-block"
                   onClick={() => setIsSignUp(true)}
                   whileHover={{ scale: 1.1 }}
                 >
@@ -159,14 +114,11 @@ const Login = () => {
         className="w-full md:w-1/2 bg-dop flex flex-col items-center justify-center text-center md:text-left text-white p-6 md:p-8"
         initial="hidden"
         animate="visible"
-        variants={textVariants}
+        variants={{ hidden: { opacity: 0, x: 50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.8 } } }}
       >
-        <p className="text-lg">
-          Hello, I am your assistant in implementing task assignment using my
-          intelligence
-        </p>
+        <p className="text-lg">Hello, I am your assistant in implementing task assignment using my intelligence</p>
         <h1 className="text-5xl md:text-[6rem] font-bold mt-4">Agenda</h1>
-        <p className="text-lg mt-2">Your assistant in task management</p>
+        <p className="text-lg mt-40">Your assistant in task management</p>
       </motion.div>
     </div>
   );
