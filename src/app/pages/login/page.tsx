@@ -9,8 +9,7 @@ import { CiLogin, CiUser } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import Link from "next/link";
 import Google from "@/app/images/icon/Google.svg";
-import axios from "axios";
-import { BASE_URL } from "@/app/context/context";
+import { registerUser, loginUser } from "@/app/servises/auth"; // Импорт функций
 
 const Login: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -32,27 +31,16 @@ const Login: React.FC = () => {
     try {
       if (isSignUp) {
         // Регистрация
-        const response = await axios.post(`${BASE_URL}/users/register`, {
-          email,
-          password,
-          firstName,
-        });
-        alert("Registration successful!");
-        console.log(response.data);
+        const { message } = await registerUser(email, password, firstName);
+        alert(message);
       } else {
         // Логин
-        const response = await axios.post(`${BASE_URL}/users/login`, {
-          email,
-          password,
-        });
-        alert("Login successful!");
-        console.log(response.data);
+        const { message } = await loginUser(email, password);
+        alert(message);
       }
     } catch (error: any) {
-      console.error(error);
-      alert(
-        error.response?.data?.message || "An error occurred. Please try again."
-      );
+      alert(error.message);
+      console.error(error.message);
     }
   };
 
