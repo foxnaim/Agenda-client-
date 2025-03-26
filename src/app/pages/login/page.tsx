@@ -9,9 +9,14 @@ import { CiLogin, CiUser } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import Link from "next/link";
 import Google from "@/app/images/icon/Google.svg";
+import axios from "axios";
+import { BASE_URL } from "@/app/context/context";
 
-const Login = () => {
+const Login: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
 
   // Анимации формы
   const formVariants = {
@@ -23,6 +28,34 @@ const Login = () => {
     },
   };
 
+  const handleFormSubmit = async () => {
+    try {
+      if (isSignUp) {
+        // Регистрация
+        const response = await axios.post(`${BASE_URL}/users/register`, {
+          email,
+          password,
+          firstName,
+        });
+        alert("Registration successful!");
+        console.log(response.data);
+      } else {
+        // Логин
+        const response = await axios.post(`${BASE_URL}/users/login`, {
+          email,
+          password,
+        });
+        alert("Login successful!");
+        console.log(response.data);
+      }
+    } catch (error: any) {
+      console.error(error);
+      alert(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
+    }
+  };
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
       {/* Левая часть */}
@@ -32,17 +65,44 @@ const Login = () => {
         animate="visible"
         variants={formVariants}
       >
-        <form className="p-6 md:p-10 rounded-xl w-full max-w-sm border-2 border-dop text-center">
+        <form
+          className="p-6 md:p-10 rounded-xl w-full max-w-sm border-2 border-dop text-center"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleFormSubmit();
+          }}
+        >
           <h1 className="text-3xl font-bold text-white mb-6">
             {isSignUp ? "Sign up" : "Welcome"}
           </h1>
 
           <div className="mb-4 space-y-4">
-            <Input type="email" name="email" placeholder="Email" Icon={MdOutlineMail} />
+            <Input
+              type="email"
+              name="email"
+              placeholder="Email"
+              Icon={MdOutlineMail}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             {isSignUp && (
-              <Input type="text" name="firstName" placeholder="First Name" Icon={FaRegUserCircle} />
+              <Input
+                type="text"
+                name="firstName"
+                placeholder="First Name"
+                Icon={FaRegUserCircle}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
             )}
-            <Input type="password" name="password" placeholder="Password" Icon={MdLockOutline} />
+            <Input
+              type="password"
+              name="password"
+              placeholder="Password"
+              Icon={MdLockOutline}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
             {/* Кнопка входа/регистрации */}
             <motion.div className="flex justify-center" whileHover={{ scale: 1.1 }}>
@@ -51,6 +111,7 @@ const Login = () => {
                 text={isSignUp ? "Sign Up" : "Login"}
                 Icon={isSignUp ? CiUser : CiLogin}
                 fullWidth
+                onClick={handleFormSubmit}
               />
             </motion.div>
           </div>
@@ -114,9 +175,19 @@ const Login = () => {
         className="w-full md:w-1/2 bg-dop flex flex-col items-center justify-center text-center md:text-left text-white p-6 md:p-8"
         initial="hidden"
         animate="visible"
-        variants={{ hidden: { opacity: 0, x: 50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.8 } } }}
+        variants={{
+          hidden: { opacity: 0, x: 50 },
+          visible: {
+            opacity: 1,
+            x: 0,
+            transition: { duration: 0.8 },
+          },
+        }}
       >
-        <p className="text-lg">Hello, I am your assistant in implementing task assignment using my intelligence</p>
+        <p className="text-lg">
+          Hello, I am your assistant in implementing task assignment using my
+          intelligence
+        </p>
         <h1 className="text-5xl md:text-[6rem] font-bold mt-4">Agenda</h1>
         <p className="text-lg mt-40">Your assistant in task management</p>
       </motion.div>
