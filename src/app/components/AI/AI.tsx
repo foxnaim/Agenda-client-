@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaMicrophone } from "react-icons/fa";
 import { LuListTodo, LuSend } from "react-icons/lu";
@@ -9,72 +9,66 @@ import { FiPaperclip } from "react-icons/fi";
 type Props = {};
 
 const AI = (props: Props) => {
-  // Анимации для контейнера
-  const containerVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+  const [message, setMessage] = useState("");
+
+  const handleSendMessage = () => {
+    if (message.trim()) {
+      console.log("Sending message:", message);
+      setMessage("");
+    }
   };
 
-  // Анимации для кнопок
-  const buttonVariants = {
-    hover: { scale: 1.1, backgroundColor: "#3B3B3B", transition: { duration: 0.2 } },
-  };
-
-  // Анимация для иконок
-  const iconVariants = {
-    hover: { scale: 1.2, color: "#CCCCCC", transition: { duration: 0.2 } },
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
   };
 
   return (
     <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }}
+      exit={{ opacity: 0, y: 50 }}
       className="fixed bottom-0 left-0 w-full flex justify-center p-4"
     >
-      <div className="w-full max-w-[700px] bg-dop p-4 rounded-2xl flex flex-col shadow-lg">
-        {/* Текстовое поле с анимацией */}
-        <motion.textarea
-          className="w-full bg-transparent text-white resize-none outline-none placeholder-dopHover p-2"
+      <div className="w-full max-w-[700px] bg-[#131826] p-4 rounded-2xl flex flex-col shadow-lg border border-[#252D44]">
+        <textarea
+          className="w-full bg-[#1A2238] text-[#D0D3E0] resize-none outline-none placeholder-gray-500 p-2 rounded-lg"
           placeholder="Message Agenda..."
           rows={3}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleKeyPress}
         />
 
-        {/* Панель с кнопками */}
         <div className="mt-4 flex justify-between items-center">
-          {/* Кнопки действий */}
           <div className="flex gap-2 sm:gap-3">
             <motion.button
-              className="flex items-center gap-2 text-white border border-dopHover px-3 py-2 sm:px-4 sm:py-2 rounded-3xl hover:bg-gray-700 transition"
-              variants={buttonVariants}
-              whileHover="hover"
+              className="flex items-center gap-2 text-[#D0D3E0] border border-[#252D44] px-3 py-2 sm:px-4 sm:py-2 rounded-3xl bg-[#1A2238] hover:bg-[#2B3555] transition"
+              whileHover={{ scale: 1.1 }}
             >
-              <LuListTodo className="text-xl" /> 
+              <LuListTodo className="text-xl" />
               <span className="hidden sm:inline">Make a task</span>
             </motion.button>
             <motion.button
-              className="flex items-center gap-2 text-white border border-dopHover px-3 py-2 sm:px-4 sm:py-2 rounded-3xl hover:bg-gray-700 transition"
-              variants={buttonVariants}
-              whileHover="hover"
+              className="flex items-center gap-2 text-[#D0D3E0] border border-[#252D44] px-3 py-2 sm:px-4 sm:py-2 rounded-3xl bg-[#1A2238] hover:bg-[#2B3555] transition"
+              whileHover={{ scale: 1.1 }}
             >
-              <MdHandshake className="text-xl" /> 
+              <MdHandshake className="text-xl" />
               <span className="hidden sm:inline">Own meeting</span>
             </motion.button>
           </div>
 
-          {/* Иконки с анимацией */}
-          <div className="flex gap-2 sm:gap-3 text-white text-xl">
-            <motion.div variants={iconVariants} whileHover="hover">
-              <FiPaperclip className="cursor-pointer hover:text-gray-300 transition" />
+          <div className="flex gap-2 sm:gap-3 text-[#D0D3E0] text-xl">
+            <motion.div whileHover={{ scale: 1.2 }}>
+              <FiPaperclip className="cursor-pointer hover:text-gray-500 transition" />
             </motion.div>
-            <motion.div variants={iconVariants} whileHover="hover">
-              <FaMicrophone className="cursor-pointer hover:text-gray-300 transition" />
+            <motion.div whileHover={{ scale: 1.2 }}>
+              <FaMicrophone className="cursor-pointer hover:text-gray-500 transition" />
             </motion.div>
-            <motion.div variants={iconVariants} whileHover="hover">
-              <LuSend className="cursor-pointer hover:text-gray-300 transition" />
+            <motion.div whileHover={{ scale: 1.2 }} onClick={handleSendMessage}>
+              <LuSend className="cursor-pointer hover:text-gray-500 transition" />
             </motion.div>
           </div>
         </div>

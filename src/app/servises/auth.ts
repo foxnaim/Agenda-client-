@@ -19,10 +19,7 @@ const isValidPassword = (password: string): boolean => {
 
 // Регистрация пользователя
 export const registerUser = async (
-  email: string,
-  password: string,
-  firstName: string
-): Promise<AuthResponse> => {
+email: string, password: string, firstName: string, lastName: string): Promise<AuthResponse> => {
   // Проверка валидности данных
   if (!email || !password || !firstName) {
     throw new Error("All fields are required.");

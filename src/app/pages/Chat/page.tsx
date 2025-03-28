@@ -87,7 +87,7 @@ const Message = () => {
   return (
     <div className="relative h-screen w-full bg-gradient-to-br from-gray-900 via-gray-800 to-black">
       {/* Левое меню (фиксированное) */}
-      <div className="fixed left-0 top-0 h-full w-[60px] bg-white/10 backdrop-blur-md z-10 flex flex-col items-center py-4">
+      <div className="fixed left-0 top-0 h-full w-[0px] bg-white/10 backdrop-blur-md z-10 flex flex-col items-center py-4">
         <Navigation />
       </div>
 

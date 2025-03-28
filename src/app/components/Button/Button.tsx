@@ -9,13 +9,15 @@ type Props = {
   ImageSrc?: string;
   fullWidth?: boolean; // Опция для широкой кнопки
   disabled?: boolean; // Отключение кнопки
+  onClick?: () => void; // Добавляем обработчик клика
 };
 
-const Button: React.FC<Props> = ({ name, text, Icon, ImageSrc, fullWidth, disabled }) => {
+const Button: React.FC<Props> = ({ name, text, Icon, ImageSrc, fullWidth, disabled, onClick }) => {
   return (
     <button
       name={name}
       disabled={disabled}
+      onClick={onClick} // Передаём onClick в кнопку
       className={`
         flex items-center justify-center px-5 py-3 rounded-lg 
         ${fullWidth ? "w-full" : "w-auto"} 
@@ -23,12 +25,8 @@ const Button: React.FC<Props> = ({ name, text, Icon, ImageSrc, fullWidth, disabl
         text-white font-medium text-lg gap-2
       `}
     >
-      {/* Если есть изображение, показываем его */}
       {ImageSrc && <Image src={ImageSrc} alt="icon" width={24} height={24} />}
-      
-      {/* Если есть иконка, показываем её */}
       {Icon && <Icon className="text-white text-2xl" />}
-      
       {text}
     </button>
   );

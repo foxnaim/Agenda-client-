@@ -90,14 +90,14 @@ const MonthsDashboard = () => {
   };
 
   return (
-    <div className="p-6 min-h-screen text-white" onClick={closeMenus}>
+    <div className="p-6 min-h-screen text-[#D0D3E0] bg-[#131826]" onClick={closeMenus}>
       <h2 className="flex justify-center text-xl md:text-2xl lg:text-3xl font-bold mb-7">План задач</h2>
       {isClient && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {Object.entries(tasks).map(([listId, data]) => (
             <motion.div
               key={listId}
-              className="relative p-4 bg-dop rounded-lg shadow-md"
+              className="relative p-4 bg-[#1A2238] rounded-lg shadow-md border border-[#252D44]"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
@@ -114,11 +114,11 @@ const MonthsDashboard = () => {
                   ⋮
                 </button>
                 {menuOpen === listId && (
-                  <div className="absolute right-2 top-8 bg-gray-800 p-2 rounded shadow-lg z-10 flex flex-col menu">
-                    <button onClick={() => editListName(listId)} className="text-blue-400 hover:bg-gray-700 p-1 rounded">Редактировать название</button>
-                    <button onClick={() => deleteList(listId)} className="text-red-400 hover:bg-gray-700 p-1 rounded">Удалить лист</button>
-                    <button onClick={() => deleteTask(listId, data.tasks[0]?.id)} className="text-yellow-400 hover:bg-gray-700 p-1 rounded">Удалить задачу</button>
-                    <button onClick={() => editTask(listId, data.tasks[0]?.id)} className="text-green-400 hover:bg-gray-700 p-1 rounded">Редактировать задачу</button>
+                  <div className="absolute right-2 top-8 bg-[#2B3555] p-2 rounded shadow-lg z-10 flex flex-col menu">
+                    <button onClick={() => editListName(listId)} className="text-blue-400 hover:bg-[#37415A] p-1 rounded">Редактировать название</button>
+                    <button onClick={() => deleteList(listId)} className="text-red-400 hover:bg-[#37415A] p-1 rounded">Удалить лист</button>
+                    <button onClick={() => deleteTask(listId, data.tasks[0]?.id)} className="text-yellow-400 hover:bg-[#37415A] p-1 rounded">Удалить задачу</button>
+                    <button onClick={() => editTask(listId, data.tasks[0]?.id)} className="text-green-400 hover:bg-[#37415A] p-1 rounded">Редактировать задачу</button>
                   </div>
                 )}
               </div>
@@ -146,7 +146,7 @@ const MonthsDashboard = () => {
                   }
                 }}
                 placeholder="Добавить задачу..."
-                className="w-full p-2 bg-dop rounded focus:outline-none text-sm md:text-base"
+                className="w-full p-2 bg-[#2B3555] rounded focus:outline-none text-sm md:text-base"
               />
             </motion.div>
           ))}
@@ -154,7 +154,7 @@ const MonthsDashboard = () => {
             const newListId = uuidv4();
             const newListName = `TODO LIST ${Object.keys(tasks).length + 1}`;
             setTasks((prev) => ({ ...prev, [newListId]: { name: newListName, tasks: [] } }));
-          }} className="p-4 bg-dop rounded-lg shadow-md hover:bg-dopHover border-dashed border-2 border-dopHover flex justify-center items-center text-sm md:text-base">➕ Добавить лист</motion.button>
+          }} className="p-4 bg-[#1A2238] rounded-lg shadow-md hover:bg-[#2B3555] border-dashed border-2 border-[#37415A] flex justify-center items-center text-sm md:text-base">➕ Добавить лист</motion.button>
         </div>
       )}
       <DashboardOverview tasks={tasks} setTasks={setTasks} setViewMode={() => {}} />
