@@ -14,13 +14,15 @@ import { registerUser, loginUser } from "@/app/servises/auth";
 const Login: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
 
-  // Existing fields
+  // Общие поля
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
 
-  // New fields
+  // Поля регистрации
+  const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [dateBirth, setDateBirth] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -30,14 +32,14 @@ const Login: React.FC = () => {
     setLoading(true);
 
     try {
-      // If signing up, ensure password matches confirm password
+      // Если регистрация, проверяем совпадение паролей
       if (isSignUp && password !== confirmPassword) {
         alert("Passwords do not match!");
         return;
       }
 
       const { message } = isSignUp
-        ? await registerUser(email, password, firstName, lastName)
+        ? await registerUser(email, password, firstName, lastName, phone, dateBirth)
         : await loginUser(email, password);
 
       alert(message);
@@ -51,7 +53,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
-      {/* Left Side (Form) */}
+      {/* Левая сторона (форма) */}
       <motion.div
         className="bg-bgop w-full md:w-1/2 flex items-center justify-center p-6 md:p-10"
         initial={{ opacity: 0, scale: 0.8 }}
@@ -70,59 +72,63 @@ const Login: React.FC = () => {
           </h1>
 
           <div className="mb-4 space-y-4">
-            {/* Email Field */}
+            {/* Email */}
             <Input
               type="email"
               name="email"
               placeholder="Email"
               Icon={MdOutlineMail}
               value={email}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEmail(e.target.value)
-              }
+              onChange={(e) => setEmail(e.target.value)}
             />
-
-            {/* First Name Field */}
+            {/* Режим регистрации */}
             {isSignUp && (
-              <Input
-                type="text"
-                name="firstName"
-                placeholder="First Name"
-                Icon={FaRegUserCircle}
-                value={firstName}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setFirstName(e.target.value)
-                }
-              />
+              <>
+                <Input
+                  type="text"
+                  name="firstName"
+                  placeholder="First Name"
+                  Icon={FaRegUserCircle}
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+                <Input
+                  type="text"
+                  name="lastName"
+                  placeholder="Last Name"
+                  Icon={FaRegUserCircle}
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+                <Input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone Number"
+                  Icon={FaRegUserCircle}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+                <Input
+                  type="date"
+                  name="dateBirth"
+                  placeholder="Date of Birth"
+                  Icon={FaRegUserCircle}
+                  value={dateBirth}
+                  onChange={(e) => setDateBirth(e.target.value)}
+                />
+              </>
             )}
 
-            {/* Last Name Field */}
-            {isSignUp && (
-              <Input
-                type="text"
-                name="lastName"
-                placeholder="Last Name"
-                Icon={FaRegUserCircle}
-                value={lastName}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setLastName(e.target.value)
-                }
-              />
-            )}
-
-            {/* Password Field */}
+            {/* Password */}
             <Input
               type="password"
               name="password"
               placeholder="Password"
               Icon={MdLockOutline}
               value={password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setPassword(e.target.value)
-              }
+              onChange={(e) => setPassword(e.target.value)}
             />
-
-            {/* Confirm Password Field */}
+            {/* Подтверждение пароля для регистрации */}
             {isSignUp && (
               <Input
                 type="password"
@@ -130,25 +136,23 @@ const Login: React.FC = () => {
                 placeholder="Confirm Password"
                 Icon={MdLockOutline}
                 value={confirmPassword}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setConfirmPassword(e.target.value)
-                }
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             )}
-
-            <motion.div className="flex justify-center" whileHover={{ scale: 1.1 }}>
-              <Button
-                name={isSignUp ? "Sign Up" : "Login"}
-                text={loading ? "Processing..." : isSignUp ? "Sign Up" : "Login"}
-                Icon={isSignUp ? CiUser : CiLogin}
-                fullWidth
-                onClick={handleFormSubmit}
-                disabled={loading}
-              />
-            </motion.div>
           </div>
 
-          {/* Forgot Password Link */}
+          <motion.div className="flex justify-center" whileHover={{ scale: 1.1 }}>
+            <Button
+              name={isSignUp ? "Sign Up" : "Login"}
+              text={loading ? "Processing..." : isSignUp ? "Sign Up" : "Login"}
+              Icon={isSignUp ? CiUser : CiLogin}
+              fullWidth
+              onClick={handleFormSubmit}
+              disabled={loading}
+            />
+          </motion.div>
+
+          {/* Ссылка "Forgot password" для логина */}
           {!isSignUp && (
             <motion.div
               className="text-sm mt-2 text-gray-400"
@@ -162,19 +166,19 @@ const Login: React.FC = () => {
             </motion.div>
           )}
 
-          {/* Divider */}
+          {/* Разделитель */}
           <div className="flex items-center justify-center mt-6 gap-4">
             <div className="border-t border-gray-400 w-16" />
             <span className="text-gray-400">Or</span>
             <div className="border-t border-gray-400 w-16" />
           </div>
 
-          {/* Google Button */}
+          {/* Кнопка для входа через Google */}
           <motion.div className="mt-4 flex justify-center" whileHover={{ scale: 1.1 }}>
             <Button name="Google" text="Sign in with Google" ImageSrc={Google} />
           </motion.div>
 
-          {/* Toggle Sign Up / Login */}
+          {/* Переключатель между режимами регистрации и логина */}
           <div className="mt-4 text-gray-400">
             {isSignUp ? (
               <p>
@@ -203,7 +207,7 @@ const Login: React.FC = () => {
         </form>
       </motion.div>
 
-      {/* Right Side (Intro) */}
+      {/* Правая сторона (информация) */}
       <motion.div
         className="w-full md:w-1/2 bg-dop flex flex-col items-center justify-center text-center md:text-left text-white p-6 md:p-8"
         initial={{ opacity: 0, x: "10%" }}
