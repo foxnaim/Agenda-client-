@@ -69,7 +69,7 @@ const Settings = () => {
 
   // Анимации для кнопки
   const buttonVariants = {
-    hover: { scale: 1.05, backgroundColor: "#3B3B3B", transition: { duration: 0.2 } },
+    hover: { scale: 1.05, transition: { duration: 0.2 } },
   };
 
   return (
@@ -77,11 +77,13 @@ const Settings = () => {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="flex items-center justify-center min-h-screen bg-bgop text-white"
+      style={{ backgroundColor: "var(--bgop)", color: "var(--light)" }}
+      className="flex items-center justify-center min-h-screen"
     >
       <Navigation />
       <motion.div
-        className="max-w-lg w-full p-6 bg-dopHover shadow-md rounded-lg"
+        className="max-w-lg w-full p-6 shadow-md rounded-lg"
+        style={{ backgroundColor: "var(--dark)" }}
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -89,82 +91,86 @@ const Settings = () => {
         <h2 className="text-2xl font-bold mb-4 text-center">Настройки</h2>
 
         {/* Имя пользователя */}
-        <motion.div
-          className="mb-4"
-          variants={inputVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <label className="block text-white font-medium mb-2">Имя пользователя</label>
+        <motion.div className="mb-4" variants={inputVariants} initial="hidden" animate="visible">
+          <label className="block font-medium mb-2">Имя пользователя</label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full p-2 border border-gray-600 rounded-lg bg-dop text-white placeholder-gray-400"
             placeholder="Введите имя"
+            className="w-full p-2 border rounded-lg placeholder-gray-300"
+            style={{
+              backgroundColor: "var(--dark)",
+              borderColor: "var(--light)",
+              color: "var(--light)",
+            }}
           />
         </motion.div>
 
         {/* Новый пароль */}
-        <motion.div
-          className="mb-4"
-          variants={inputVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <label className="block text-white font-medium mb-2">Новый пароль</label>
+        <motion.div className="mb-4" variants={inputVariants} initial="hidden" animate="visible">
+          <label className="block font-medium mb-2">Новый пароль</label>
           <input
             type="password"
             value={password}
             onChange={handlePasswordChange}
-            className="w-full p-2 border border-gray-600 rounded-lg bg-dop text-white placeholder-gray-400"
             placeholder="Введите новый пароль"
+            className="w-full p-2 border rounded-lg placeholder-gray-300"
+            style={{
+              backgroundColor: "var(--dark)",
+              borderColor: "var(--light)",
+              color: "var(--light)",
+            }}
           />
-          {/* Индикатор качества пароля */}
-          <p className={`mt-1 text-sm ${passwordStrength === "Слабый" ? "text-red-500" : passwordStrength === "Средний" ? "text-yellow-500" : "text-green-500"}`}>
+          {/* Индикатор сложности пароля */}
+          <p
+            className={`mt-1 text-sm ${
+              passwordStrength === "Слабый"
+                ? "text-red-500"
+                : passwordStrength === "Средний"
+                ? "text-yellow-500"
+                : "text-green-500"
+            }`}
+          >
             {passwordStrength && `Сложность: ${passwordStrength}`}
           </p>
         </motion.div>
 
         {/* Подтверждение пароля */}
-        <motion.div
-          className="mb-4"
-          variants={inputVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <label className="block text-white font-medium mb-2">Подтвердите пароль</label>
+        <motion.div className="mb-4" variants={inputVariants} initial="hidden" animate="visible">
+          <label className="block font-medium mb-2">Подтвердите пароль</label>
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full p-2 border border-gray-600 rounded-lg bg-dop text-white placeholder-gray-400"
             placeholder="Повторите пароль"
+            className="w-full p-2 border rounded-lg placeholder-gray-300"
+            style={{
+              backgroundColor: "var(--dark)",
+              borderColor: "var(--light)",
+              color: "var(--light)",
+            }}
           />
         </motion.div>
 
         {/* Уведомления */}
-        <motion.div
-          className="mb-6 flex items-center"
-          variants={inputVariants}
-          initial="hidden"
-          animate="visible"
-        >
+        <motion.div className="mb-6 flex items-center" variants={inputVariants} initial="hidden" animate="visible">
           <input
             type="checkbox"
             checked={notifications}
             onChange={() => setNotifications(!notifications)}
             className="mr-2"
           />
-          <span className="text-white">Получать уведомления</span>
+          <span>Получать уведомления</span>
         </motion.div>
 
         {/* Кнопка сохранения */}
         <motion.button
           onClick={handleSave}
-          className="w-full bg-dop text-white p-2 rounded-lg hover:bg-dopHover transition"
+          className="w-full p-2 rounded-lg transition"
           variants={buttonVariants}
           whileHover="hover"
+          style={{ backgroundColor: "var(--dop)", color: "var(--light)" }}
         >
           Сохранить изменения
         </motion.button>

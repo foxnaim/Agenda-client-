@@ -114,7 +114,7 @@ const MonthsDashboard = () => {
                   ⋮
                 </button>
                 {menuOpen === listId && (
-                  <div className="absolute right-2 top-8 bg-[#2B3555] p-2 rounded shadow-lg z-10 flex flex-col menu">
+                  <div className="absolute right-2 top-8 bg-[#1A1F33] p-2 rounded shadow-lg z-10 flex flex-col menu">
                     <button onClick={() => editListName(listId)} className="text-blue-400 hover:bg-[#37415A] p-1 rounded">Редактировать название</button>
                     <button onClick={() => deleteList(listId)} className="text-red-400 hover:bg-[#37415A] p-1 rounded">Удалить лист</button>
                     <button onClick={() => deleteTask(listId, data.tasks[0]?.id)} className="text-yellow-400 hover:bg-[#37415A] p-1 rounded">Удалить задачу</button>
