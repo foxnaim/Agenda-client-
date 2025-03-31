@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Button from "@/app/components/Button/Button";
@@ -55,13 +54,14 @@ const Login: React.FC = () => {
     <div className="flex flex-col md:flex-row min-h-screen">
       {/* Левая сторона (форма) */}
       <motion.div
-        className="bg-bgop w-full md:w-1/2 flex items-center justify-center p-6 md:p-10"
+        className="w-full md:w-1/2 flex items-center justify-center p-6 md:p-10"
+        style={{ backgroundColor: "var(--bgop)" }}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <form
-          className="p-6 md:p-10 rounded-xl w-full max-w-sm border-2 border-dop text-center"
+          className="p-6 md:p-10 rounded-xl w-full max-w-sm text-center"
           onSubmit={(e) => {
             e.preventDefault();
             handleFormSubmit();
@@ -168,9 +168,9 @@ const Login: React.FC = () => {
 
           {/* Разделитель */}
           <div className="flex items-center justify-center mt-6 gap-4">
-            <div className="border-t border-gray-400 w-16" />
+            <div className="border-t" style={{ borderColor: "var(--dark)", width: "4rem" }} />
             <span className="text-gray-400">Or</span>
-            <div className="border-t border-gray-400 w-16" />
+            <div className="border-t" style={{ borderColor: "var(--dark)", width: "4rem" }} />
           </div>
 
           {/* Кнопка для входа через Google */}
@@ -209,7 +209,8 @@ const Login: React.FC = () => {
 
       {/* Правая сторона (информация) */}
       <motion.div
-        className="w-full md:w-1/2 bg-dop flex flex-col items-center justify-center text-center md:text-left text-white p-6 md:p-8"
+        className="w-full md:w-1/2 flex flex-col items-center justify-center text-center md:text-left text-white p-6 md:p-8"
+        style={{ backgroundColor: "var(--dark)" }}
         initial={{ opacity: 0, x: "10%" }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
