@@ -48,14 +48,9 @@ const Home = () => {
           </motion.p>
 
         {/* AI-компонент */}
-        <motion.div
-          className="mt-6"
-          initial="hidden"
-          animate="visible"
-          variants={aiVariants}
-        >
+      
           <AI />
-        </motion.div>
+       
       </div>
     </React.Fragment>
   );
