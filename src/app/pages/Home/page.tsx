@@ -31,12 +31,6 @@ const Home = () => {
       <div className="h-screen w-full bg-gradient-to-br from-gray-900 via-gray-800 to-black flex flex-col items-center justify-center text-center">
         
         {/* Контейнер с фоном как в блоках чата */}
-        <motion.div
-          className="bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-lg border border-white/10 w-[90%] max-w-md"
-          initial="hidden"
-          animate="visible"
-          variants={headingVariants}
-        >
           {/* Заголовок */}
           <motion.h1
             className="text-4xl font-semibold text-white"
@@ -52,7 +46,6 @@ const Home = () => {
           >
             Ready to get started?
           </motion.p>
-        </motion.div>
 
         {/* AI-компонент */}
         <motion.div
