@@ -10,14 +10,16 @@ type Props = {
   fullWidth?: boolean; // Опция для широкой кнопки
   disabled?: boolean; // Отключение кнопки
   onClick?: () => void; // Добавляем обработчик клика
+  type?: "button" | "submit" | "reset"; // Добавляем поддержку атрибута type
 };
 
-const Button: React.FC<Props> = ({ name, text, Icon, ImageSrc, fullWidth, disabled, onClick }) => {
+const Button: React.FC<Props> = ({ name, text, Icon, ImageSrc, fullWidth, disabled, onClick, type = "button" }) => {
   return (
     <button
       name={name}
       disabled={disabled}
       onClick={onClick} // Передаём onClick в кнопку
+      type={type} // Передаем type в кнопку
       className={`
         flex items-center justify-center px-5 py-3 rounded-lg 
         ${fullWidth ? "w-full" : "w-auto"} 

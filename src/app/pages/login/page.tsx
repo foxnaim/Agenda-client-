@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Button from "@/app/components/Button/Button";
@@ -8,43 +9,48 @@ import { CiLogin, CiUser } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import Link from "next/link";
 import Google from "@/app/images/icon/Google.svg";
-import { registerUser, loginUser } from "@/app/servises/auth";
+import { registerUser, loginUser } from "@/app/servises/auth"; // Исправил путь к сервису
 
 const Login: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
 
-  // Общие поля
+  // Поля формы
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // Поля регистрации
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [dateBirth, setDateBirth] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const [loading, setLoading] = useState(false);
 
-  const handleFormSubmit = async () => {
+  // Обработчик формы
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // Предотвращаем перезагрузку страницы
     if (loading) return;
+
     setLoading(true);
-
     try {
-      // Если регистрация, проверяем совпадение паролей
-      if (isSignUp && password !== confirmPassword) {
-        alert("Passwords do not match!");
-        return;
+      if (isSignUp) {
+        if (password !== confirmPassword) {
+          alert("Passwords do not match!");
+          return;
+        }
+        const { message } = await registerUser(
+          email,
+          password,
+          firstName,
+          lastName,
+          phone,
+          dateBirth
+        );
+        alert(message);
+      } else {
+        const { message } = await loginUser(email, password);
+        alert(message);
       }
-
-      const { message } = isSignUp
-        ? await registerUser(email, password, firstName, lastName, phone, dateBirth)
-        : await loginUser(email, password);
-
-      alert(message);
     } catch (error: any) {
       alert(error.message);
-      console.error(error.message);
     } finally {
       setLoading(false);
     }
@@ -62,10 +68,7 @@ const Login: React.FC = () => {
       >
         <form
           className="p-6 md:p-10 rounded-xl w-full max-w-sm text-center"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleFormSubmit();
-          }}
+          onSubmit={handleFormSubmit}
         >
           <h1 className="text-3xl font-bold text-white mb-6">
             {isSignUp ? "Sign up" : "Welcome"}
@@ -74,27 +77,6 @@ const Login: React.FC = () => {
           <div className="mb-4 space-y-4">
             {/* Email */}
             <Input
-                  type="text"
-                  name="firstName"
-                  placeholder="First Name"
-                  Icon={FaRegUserCircle}
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-          
-            {/* Режим регистрации */}
-            {isSignUp && (
-              <>
-               <Input
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name"
-                  Icon={FaRegUserCircle}
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-               
-                <Input
               type="email"
               name="email"
               placeholder="Email"
@@ -102,7 +84,34 @@ const Login: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-               
+
+            {/* Поля для регистрации */}
+            {isSignUp && (
+              <>
+                <Input
+                  type="text"
+                  name="firstName"
+                  placeholder="First Name"
+                  Icon={FaRegUserCircle}
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+                <Input
+                  type="text"
+                  name="lastName"
+                  placeholder="Last Name"
+                  Icon={FaRegUserCircle}
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+                <Input
+                  type="text"
+                  name="phone"
+                  placeholder="Phone"
+                  Icon={FaRegUserCircle}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
                 <Input
                   type="date"
                   name="dateBirth"
@@ -136,42 +145,28 @@ const Login: React.FC = () => {
             )}
           </div>
 
-          <motion.div className="flex justify-center" whileHover={{ scale: 1.1 }}>
+          <motion.div
+            className="flex justify-center"
+            whileHover={{ scale: 1.1 }}
+          >
             <Button
               name={isSignUp ? "Sign Up" : "Login"}
               text={loading ? "Processing..." : isSignUp ? "Sign Up" : "Login"}
               Icon={isSignUp ? CiUser : CiLogin}
               fullWidth
-              onClick={handleFormSubmit}
+              type="submit" // Теперь можно использовать type
               disabled={loading}
             />
           </motion.div>
 
-          {/* Ссылка "Forgot password" для логина */}
+          {/* Ссылка "Forgot password" */}
           {!isSignUp && (
-            <motion.div
-              className="text-sm mt-2 text-gray-400"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
+            <motion.div className="text-sm mt-2 text-gray-400">
               <Link href="/forgot-password" className="hover:underline">
                 Forgot password?
               </Link>
             </motion.div>
           )}
-
-          {/* Разделитель */}
-          <div className="flex items-center justify-center mt-6 gap-4">
-            <div className="border-t" style={{ borderColor: "var(--dark)", width: "4rem" }} />
-            <span className="text-gray-400">Or</span>
-            <div className="border-t" style={{ borderColor: "var(--dark)", width: "4rem" }} />
-          </div>
-
-          {/* Кнопка для входа через Google */}
-          <motion.div className="mt-4 flex justify-center" whileHover={{ scale: 1.1 }}>
-            <Button name="Google" text="Sign in with Google" ImageSrc={Google} />
-          </motion.div>
 
           {/* Переключатель между режимами регистрации и логина */}
           <div className="mt-4 text-gray-400">
@@ -210,9 +205,7 @@ const Login: React.FC = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <p className="text-lg">
-          Hello, I am your assistant in implementing task assignment using my intelligence
-        </p>
+        <p className="text-lg">Manage your tasks effectively with our app</p>
         <h1 className="text-5xl md:text-[6rem] font-bold mt-4">Agenda</h1>
         <p className="text-lg mt-40">Your assistant in task management</p>
       </motion.div>
