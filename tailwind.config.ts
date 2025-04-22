@@ -9,11 +9,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        bgop: "#1A1F2D", // Более глубокий темно-синий/серый
-        dopHover: "#8B9692", // Мягкий серый для hover
-        dop: "#3C4245", // Чуть светлее, чем раньше
-        light: "#E5E5E5", // Приглушенный белый
-        dark: "#252A34", // Насыщенный темный
+        // Первый экран — холодные оттенки
+        frostedWhite: "#FAFAFA",
+        glacierGray: "#D1D1D1",
+        steelyIce: "#929292",
+        obsidian: "#222222",
+
+        // Второй экран — фиолетовые/пастельные оттенки
+        softLavender: "#E6E6FA",
+        pastelPlum: "#A87CA0", 
+        deepViolet: "#5E2B6D",
+        royalAubergine: "#2A0E3C",
       },
     },
   },

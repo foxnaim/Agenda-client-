@@ -13,17 +13,13 @@ import {
   Message as MessageType,
 } from "@/app/components/ContactList/data/data";
 
-/**
- * Пример ContactList, чтобы показать единый фон у элементов
- * Вы можете изменить стили под свои нужды.
- */
 function ContactList() {
   return (
     <div className="flex flex-col space-y-2">
       {contacts.map((contact) => (
         <div
           key={contact.name}
-          className="flex items-center gap-3 p-3 rounded-lg bg-white/10 backdrop-blur-md text-white hover:bg-white/20 transition"
+          className="flex items-center gap-3 p-3 rounded-lg bg-pastelPlum/20 backdrop-blur-md text-softLavender hover:bg-pastelPlum/30 transition"
         >
           <Image
             src={
@@ -38,7 +34,9 @@ function ContactList() {
           />
           <div className="flex flex-col">
             <span className="font-semibold">{contact.name}</span>
-            <span className="text-sm text-gray-300">{contact.points} points</span>
+            <span className="text-sm text-softLavender/70">
+              {contact.points} points
+            </span>
           </div>
         </div>
       ))}
@@ -50,15 +48,12 @@ const Message = () => {
   const [messages, setMessages] = useState<MessageType[]>(initialMessages);
   const [inputValue, setInputValue] = useState<string>("");
 
-  // Реф, чтобы прокручивать окно к последнему сообщению
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-  // Автопрокрутка при добавлении сообщения
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Отправка сообщения
   const sendMessage = () => {
     if (!inputValue.trim()) return;
     setMessages((prev) => [
@@ -68,7 +63,6 @@ const Message = () => {
     setInputValue("");
   };
 
-  // Анимации для контейнеров
   const containerVariants = {
     hidden: { opacity: 0, y: 10 },
     visible: {
@@ -78,34 +72,29 @@ const Message = () => {
     },
   };
 
-  // Анимации для каждого сообщения
   const messageVariants = {
     hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0 },
   };
 
   return (
-    <div className="relative h-screen w-full bg-gradient-to-br from-gray-900 via-gray-800 to-black">
-      {/* Левое меню (фиксированное) */}
-      <div className="fixed left-0 top-0 h-full w-[0px] bg-white/10 backdrop-blur-md z-10 flex flex-col items-center py-4">
+    <div className="relative h-screen w-full bg-royalAubergine">
+      <div className="fixed left-0 top-0 h-full w-[0px] bg-pastelPlum/20 backdrop-blur-md z-10 flex flex-col items-center py-4">
         <Navigation />
       </div>
 
-      {/* Основная часть: чат + список пользователей */}
       <div className="ml-[160px] h-full flex flex-row p-4 gap-4">
-        {/* Блок чата (основная колонка) */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="flex flex-col flex-grow bg-white/10 backdrop-blur-md rounded-xl p-4 max-h-screen border border-white/10 shadow-lg"
+          className="flex flex-col flex-grow bg-deepViolet/40 backdrop-blur-md rounded-xl p-4 max-h-screen border border-softLavender/10 shadow-lg"
         >
-          {/* Информация о пользователе вверху */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="flex items-center bg-white/5 rounded-lg p-4 shadow-inner"
+            className="flex items-center bg-pastelPlum/20 rounded-lg p-4 shadow-inner"
           >
             <Image
               src={
@@ -119,18 +108,16 @@ const Message = () => {
               className="rounded-full w-[50px] h-[50px] object-cover"
             />
             <div className="ml-4">
-              <p className="text-white font-semibold text-lg">
+              <p className="text-softLavender font-semibold text-lg">
                 {contacts[0].name}
               </p>
-              <p className="text-gray-300 text-sm">
+              <p className="text-softLavender/70 text-sm">
                 {contacts[0].points} points
               </p>
             </div>
-            {/* Статус (онлайн) */}
-            <span className="ml-auto bg-green-500 w-3 h-3 rounded-full" />
+            <span className="ml-auto bg-green-400 w-3 h-3 rounded-full" />
           </motion.div>
 
-          {/* Сами сообщения */}
           <motion.div
             className="flex-1 overflow-y-auto mt-4 space-y-4 px-2 py-2"
             initial="hidden"
@@ -147,62 +134,57 @@ const Message = () => {
               <motion.div
                 key={msg.id}
                 variants={messageVariants}
-                className={`max-w-[60%] break-words p-3 rounded-xl text-sm shadow-md
-                  ${
-                    msg.sender === "user"
-                      ? // Сообщения пользователя
-                        "ml-auto bg-blue-500 text-white rounded-br-none"
-                      : // Сообщения собеседника
-                        "bg-gray-600 text-white rounded-bl-none"
-                  }`}
+                className={`max-w-[60%] break-words p-3 rounded-xl text-sm shadow-md ${
+                  msg.sender === "user"
+                    ? "ml-auto bg-pastelPlum text-softLavender rounded-br-none"
+                    : "bg-deepViolet text-softLavender rounded-bl-none"
+                }`}
               >
                 {msg.text}
               </motion.div>
             ))}
-            {/* Прокрутка в конец */}
             <div ref={messagesEndRef} />
           </motion.div>
 
-          {/* Поле ввода сообщения */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="flex items-center mt-2 bg-white/5 rounded-lg p-3 shadow-inner"
+            className="flex items-center mt-2 bg-pastelPlum/20 rounded-lg p-3 shadow-inner"
           >
             <input
               type="text"
               placeholder="Type your message..."
-              className="flex-1 bg-transparent focus:outline-none text-white placeholder-gray-300"
+              className="flex-1 bg-transparent focus:outline-none text-softLavender placeholder-softLavender/50"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             />
-            <button className="mx-2 text-gray-300 hover:text-white transition">
+            <button className="mx-2 text-softLavender/60 hover:text-softLavender transition">
               <FiPaperclip size={18} />
             </button>
-            <button className="mx-2 text-gray-300 hover:text-white transition">
+            <button className="mx-2 text-softLavender/60 hover:text-softLavender transition">
               <FaMicrophone size={18} />
             </button>
             <button
               onClick={sendMessage}
-              className="mx-2 text-gray-300 hover:text-white transition"
+              className="mx-2 text-softLavender/60 hover:text-softLavender transition"
             >
               <LuSend size={18} />
             </button>
           </motion.div>
         </motion.div>
 
-        {/* Блок со списком пользователей (тот же фон) */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="w-1/5 bg-white/10 backdrop-blur-md rounded-xl p-4 max-h-screen border border-white/10 shadow-lg flex flex-col"
+          className="w-1/5 bg-deepViolet/40 backdrop-blur-md rounded-xl p-4 max-h-screen border border-softLavender/10 shadow-lg flex flex-col"
         >
-          <h2 className="text-white text-lg font-semibold mb-2">Contacts</h2>
+          <h2 className="text-softLavender text-lg font-semibold mb-2">
+            Contacts
+          </h2>
           <div className="overflow-y-auto flex-1">
-            {/* Тут используем наш пример ContactList со стилями */}
             <ContactList />
           </div>
         </motion.div>

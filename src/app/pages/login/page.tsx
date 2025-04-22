@@ -8,45 +8,67 @@ import { MdOutlineMail, MdLockOutline } from "react-icons/md";
 import { CiLogin, CiUser } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import Link from "next/link";
-import Google from "@/app/images/icon/Google.svg";
-import { registerUser, loginUser } from "@/app/servises/auth"; // Исправил путь к сервису
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { registerUser, loginUser } from "@/app/servises/auth";
+
+// Создание схемы валидации с Yup
+const schema = yup.object().shape({
+  email: yup.string().email("Invalid email format").required("Email is required"),
+  password: yup
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required("Confirm Password is required"),
+  firstName: yup.string().when("isSignUp", {
+    is: true,
+    then: yup.string().required("First Name is required"),
+  }),
+  lastName: yup.string().when("isSignUp", {
+    is: true,
+    then: yup.string().required("Last Name is required"),
+  }),
+  phone: yup.string().when("isSignUp", {
+    is: true,
+    then: yup.string().required("Phone is required"),
+  }),
+  dateBirth: yup.string().when("isSignUp", {
+    is: true,
+    then: yup.string().required("Date of Birth is required"),
+  }),
+});
 
 const Login: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
-
-  // Поля формы
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [dateBirth, setDateBirth] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Используем react-hook-form и yup для валидации
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm({
+    resolver: yupResolver(schema),
+  });
+
   // Обработчик формы
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Предотвращаем перезагрузку страницы
+  const handleFormSubmit = async (data: any) => {
     if (loading) return;
 
     setLoading(true);
     try {
       if (isSignUp) {
-        if (password !== confirmPassword) {
-          alert("Passwords do not match!");
-          return;
-        }
         const { message } = await registerUser(
-          email,
-          password,
-          firstName,
-          lastName,
-          phone,
-          dateBirth
+          data.email,
+          data.password,
+          data.firstName,
+          data.lastName,
+          data.phone,
+          data.dateBirth
         );
         alert(message);
       } else {
-        const { message } = await loginUser(email, password);
+        const { message } = await loginUser(data.email, data.password);
         alert(message);
       }
     } catch (error: any) {
@@ -68,7 +90,7 @@ const Login: React.FC = () => {
       >
         <form
           className="p-6 md:p-10 rounded-xl w-full max-w-sm text-center"
-          onSubmit={handleFormSubmit}
+          onSubmit={handleSubmit(handleFormSubmit)} // Используем handleSubmit
         >
           <h1 className="text-3xl font-bold text-white mb-6">
             {isSignUp ? "Sign up" : "Welcome"}
@@ -81,8 +103,8 @@ const Login: React.FC = () => {
               name="email"
               placeholder="Email"
               Icon={MdOutlineMail}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email")}
+              error={errors.email?.message} // Передаем ошибку
             />
 
             {/* Поля для регистрации */}
@@ -93,32 +115,32 @@ const Login: React.FC = () => {
                   name="firstName"
                   placeholder="First Name"
                   Icon={FaRegUserCircle}
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  {...register("firstName")}
+                  error={errors.firstName?.message}
                 />
                 <Input
                   type="text"
                   name="lastName"
                   placeholder="Last Name"
                   Icon={FaRegUserCircle}
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  {...register("lastName")}
+                  error={errors.lastName?.message}
                 />
                 <Input
                   type="text"
                   name="phone"
                   placeholder="Phone"
                   Icon={FaRegUserCircle}
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  {...register("phone")}
+                  error={errors.phone?.message}
                 />
                 <Input
                   type="date"
                   name="dateBirth"
                   placeholder="Date of Birth"
                   Icon={FaRegUserCircle}
-                  value={dateBirth}
-                  onChange={(e) => setDateBirth(e.target.value)}
+                  {...register("dateBirth")}
+                  error={errors.dateBirth?.message}
                 />
               </>
             )}
@@ -129,8 +151,8 @@ const Login: React.FC = () => {
               name="password"
               placeholder="Password"
               Icon={MdLockOutline}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password")}
+              error={errors.password?.message}
             />
             {/* Подтверждение пароля для регистрации */}
             {isSignUp && (
@@ -139,8 +161,8 @@ const Login: React.FC = () => {
                 name="confirmPassword"
                 placeholder="Confirm Password"
                 Icon={MdLockOutline}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                {...register("confirmPassword")}
+                error={errors.confirmPassword?.message}
               />
             )}
           </div>

@@ -17,40 +17,42 @@ const Home = () => {
     visible: { opacity: 1, y: 0, transition: { delay: 0.3, duration: 0.8 } },
   };
 
-  const aiVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1, transition: { delay: 0.6, duration: 0.8 } },
-  };
-
   return (
     <React.Fragment>
-      <Header h1="" button="Войти" />
       <Navigation />
 
-      {/* Фон как в чате */}
-      <div className="h-screen w-full bg-gradient-to-br from-gray-900 via-gray-800 to-black flex flex-col items-center justify-center text-center">
+      {/* Фоновый градиент на основе новых цветов */}
+      <div className="h-screen w-full bg-gradient-to-br from-deepViolet via-royalAubergine to-black flex flex-col items-center justify-center text-center p-6">
         
-        {/* Контейнер с фоном как в блоках чата */}
-          {/* Заголовок */}
-          <motion.h1
-            className="text-4xl font-semibold text-white"
-            variants={headingVariants}
-          >
-            Hi, I’m Agenda
-          </motion.h1>
+        {/* Заголовок */}
+        <motion.h1
+          className="text-4xl font-bold text-softLavender"
+          variants={headingVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          Hi, I’m Agenda
+        </motion.h1>
 
-          {/* Описание */}
-          <motion.p
-            className="mt-2 text-gray-300"
-            variants={textVariants}
-          >
-            Ready to get started?
-          </motion.p>
+        {/* Подзаголовок */}
+        <motion.p
+          className="mt-3 text-pastelPlum text-lg"
+          variants={textVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          Ready to get started?
+        </motion.p>
 
         {/* AI-компонент */}
-      
+        <motion.div
+          className="mt-10"
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.6, duration: 0.8 }}
+        >
           <AI />
-       
+        </motion.div>
       </div>
     </React.Fragment>
   );
