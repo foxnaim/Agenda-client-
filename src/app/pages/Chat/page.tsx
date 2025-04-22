@@ -78,8 +78,8 @@ const Message = () => {
   };
 
   return (
-    <div className="relative h-screen w-full bg-royalAubergine">
-      <div className="fixed left-0 top-0 h-full w-[0px] bg-pastelPlum/20 backdrop-blur-md z-10 flex flex-col items-center py-4">
+    <div className="relative max-h-screen w-full">
+      <div className="fixed left-2 top-0 h-full w-[0px]  backdrop-blur-md z-10 flex flex-col items-center py-4">
         <Navigation />
       </div>
 

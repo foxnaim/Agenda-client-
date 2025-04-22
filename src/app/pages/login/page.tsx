@@ -13,7 +13,6 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerUser, loginUser } from "@/app/servises/auth";
 
-// Создание схемы валидации с Yup
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email format").required("Email is required"),
   password: yup
@@ -46,12 +45,10 @@ const Login: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Используем react-hook-form и yup для валидации
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
 
-  // Обработчик формы
   const handleFormSubmit = async (data: any) => {
     if (loading) return;
 
@@ -80,34 +77,31 @@ const Login: React.FC = () => {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
-      {/* Левая сторона (форма) */}
+      {/* Левая сторона (форма) - светлее */}
       <motion.div
-        className="w-full md:w-1/2 flex items-center justify-center p-6 md:p-10"
-        style={{ backgroundColor: "var(--bgop)" }}
+        className="w-full md:w-1/2 flex items-center justify-center p-6 md:p-10 bg-deepViolet/60"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <form
           className="p-6 md:p-10 rounded-xl w-full max-w-sm text-center"
-          onSubmit={handleSubmit(handleFormSubmit)} // Используем handleSubmit
+          onSubmit={handleSubmit(handleFormSubmit)}
         >
           <h1 className="text-3xl font-bold text-white mb-6">
             {isSignUp ? "Sign up" : "Welcome"}
           </h1>
 
           <div className="mb-4 space-y-4">
-            {/* Email */}
             <Input
               type="email"
               name="email"
               placeholder="Email"
               Icon={MdOutlineMail}
               {...register("email")}
-              error={errors.email?.message} // Передаем ошибку
+              error={errors.email?.message}
             />
 
-            {/* Поля для регистрации */}
             {isSignUp && (
               <>
                 <Input
@@ -145,7 +139,6 @@ const Login: React.FC = () => {
               </>
             )}
 
-            {/* Password */}
             <Input
               type="password"
               name="password"
@@ -154,7 +147,7 @@ const Login: React.FC = () => {
               {...register("password")}
               error={errors.password?.message}
             />
-            {/* Подтверждение пароля для регистрации */}
+
             {isSignUp && (
               <Input
                 type="password"
@@ -176,27 +169,25 @@ const Login: React.FC = () => {
               text={loading ? "Processing..." : isSignUp ? "Sign Up" : "Login"}
               Icon={isSignUp ? CiUser : CiLogin}
               fullWidth
-              type="submit" // Теперь можно использовать type
+              type="submit"
               disabled={loading}
             />
           </motion.div>
 
-          {/* Ссылка "Forgot password" */}
           {!isSignUp && (
-            <motion.div className="text-sm mt-2 text-gray-400">
+            <motion.div className="text-sm mt-2 text-white/60">
               <Link href="/forgot-password" className="hover:underline">
                 Forgot password?
               </Link>
             </motion.div>
           )}
 
-          {/* Переключатель между режимами регистрации и логина */}
-          <div className="mt-4 text-gray-400">
+          <div className="mt-4 text-white/60">
             {isSignUp ? (
               <p>
                 Already have an account?
                 <motion.span
-                  className="text-blue-400 cursor-pointer hover:underline ml-1 inline-block"
+                  className="text-softLavender cursor-pointer hover:underline ml-1 inline-block"
                   onClick={() => setIsSignUp(false)}
                   whileHover={{ scale: 1.1 }}
                 >
@@ -207,7 +198,7 @@ const Login: React.FC = () => {
               <p>
                 Don&apos;t have an account?
                 <motion.span
-                  className="text-blue-400 cursor-pointer hover:underline ml-1 inline-block"
+                  className="text-softLavender cursor-pointer hover:underline ml-1 inline-block"
                   onClick={() => setIsSignUp(true)}
                   whileHover={{ scale: 1.1 }}
                 >
@@ -219,17 +210,16 @@ const Login: React.FC = () => {
         </form>
       </motion.div>
 
-      {/* Правая сторона (информация) */}
+      {/* Правая сторона (инфо) - темнее */}
       <motion.div
-        className="w-full md:w-1/2 flex flex-col items-center justify-center text-center md:text-left text-white p-6 md:p-8"
-        style={{ backgroundColor: "var(--dark)" }}
+        className="w-full md:w-1/2 flex flex-col items-center justify-center text-center md:text-left text-white p-6 md:p-8 bg-deepViolet"
         initial={{ opacity: 0, x: "10%" }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <p className="text-lg">Manage your tasks effectively with our app</p>
+        <p className="text-lg text-softLavender">Manage your tasks effectively with our app</p>
         <h1 className="text-5xl md:text-[6rem] font-bold mt-4">Agenda</h1>
-        <p className="text-lg mt-40">Your assistant in task management</p>
+        <p className="text-lg mt-40 text-softLavender">Your assistant in task management</p>
       </motion.div>
     </div>
   );

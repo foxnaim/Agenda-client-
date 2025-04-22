@@ -19,6 +19,7 @@ const Home = () => {
 
   return (
     <React.Fragment>
+      <Header h1="" button="Войти" />
       <Navigation />
 
       {/* Фоновый градиент на основе новых цветов */}
