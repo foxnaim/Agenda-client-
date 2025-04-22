@@ -10,7 +10,7 @@ const TaskDashboard  = () => {
   return (
    <React.Fragment>
     <Navigation/>
-    <div className='flex flex-row justify-between items-center '>
+    <div className='flex flex-row justify-between items-center bg-gradient-to-br from-deepViolet via-royalAubergine to-black'>
      <div className='block ml-[250px] mt-5'>
     <MonthsDashboard/>
      </div>

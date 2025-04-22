@@ -19,7 +19,7 @@ function ContactList() {
       {contacts.map((contact) => (
         <div
           key={contact.name}
-          className="flex items-center gap-3 p-3 rounded-lg bg-pastelPlum/20 backdrop-blur-md text-softLavender hover:bg-pastelPlum/30 transition"
+          className="flex items-center gap-3 p-3 rounded-lg bg-[#A87CA0]/20 backdrop-blur-md text-[#E6E6FA] hover:bg-[#A87CA0]/30 transition"
         >
           <Image
             src={
@@ -34,7 +34,7 @@ function ContactList() {
           />
           <div className="flex flex-col">
             <span className="font-semibold">{contact.name}</span>
-            <span className="text-sm text-softLavender/70">
+            <span className="text-sm text-[#E6E6FA]/70">
               {contact.points} points
             </span>
           </div>
@@ -78,8 +78,8 @@ const Message = () => {
   };
 
   return (
-    <div className="relative max-h-screen w-full">
-      <div className="fixed left-2 top-0 h-full w-[0px]  backdrop-blur-md z-10 flex flex-col items-center py-4">
+    <div className="relative h-screen w-full bg-[#2A0E3C]">
+      <div className="fixed left-0 top-0 h-full w-[0px] bg-[#A87CA0]/20 backdrop-blur-md z-10 flex flex-col items-center py-4">
         <Navigation />
       </div>
 
@@ -88,13 +88,13 @@ const Message = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="flex flex-col flex-grow bg-deepViolet/40 backdrop-blur-md rounded-xl p-4 max-h-screen border border-softLavender/10 shadow-lg"
+          className="flex flex-col flex-grow bg-[#5E2B6D]/40 backdrop-blur-md rounded-xl p-4 max-h-screen border border-[#E6E6FA]/10 shadow-lg"
         >
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="flex items-center bg-pastelPlum/20 rounded-lg p-4 shadow-inner"
+            className="flex items-center bg-[#A87CA0]/20 rounded-lg p-4 shadow-inner"
           >
             <Image
               src={
@@ -108,10 +108,10 @@ const Message = () => {
               className="rounded-full w-[50px] h-[50px] object-cover"
             />
             <div className="ml-4">
-              <p className="text-softLavender font-semibold text-lg">
+              <p className="text-[#E6E6FA] font-semibold text-lg">
                 {contacts[0].name}
               </p>
-              <p className="text-softLavender/70 text-sm">
+              <p className="text-[#E6E6FA]/70 text-sm">
                 {contacts[0].points} points
               </p>
             </div>
@@ -134,11 +134,12 @@ const Message = () => {
               <motion.div
                 key={msg.id}
                 variants={messageVariants}
-                className={`max-w-[60%] break-words p-3 rounded-xl text-sm shadow-md ${
-                  msg.sender === "user"
-                    ? "ml-auto bg-pastelPlum text-softLavender rounded-br-none"
-                    : "bg-deepViolet text-softLavender rounded-bl-none"
-                }`}
+                className={`max-w-[60%] break-words p-3 rounded-xl text-sm shadow-md
+                  ${
+                    msg.sender === "user"
+                      ? "ml-auto bg-[#A87CA0] text-[#E6E6FA] rounded-br-none"
+                      : "bg-[#5E2B6D] text-[#E6E6FA] rounded-bl-none"
+                  }`}
               >
                 {msg.text}
               </motion.div>
@@ -150,25 +151,25 @@ const Message = () => {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="flex items-center mt-2 bg-pastelPlum/20 rounded-lg p-3 shadow-inner"
+            className="flex items-center mt-2 bg-[#A87CA0]/20 rounded-lg p-3 shadow-inner"
           >
             <input
               type="text"
               placeholder="Type your message..."
-              className="flex-1 bg-transparent focus:outline-none text-softLavender placeholder-softLavender/50"
+              className="flex-1 bg-transparent focus:outline-none text-[#E6E6FA] placeholder-[#E6E6FA]/50"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             />
-            <button className="mx-2 text-softLavender/60 hover:text-softLavender transition">
+            <button className="mx-2 text-[#E6E6FA]/60 hover:text-[#E6E6FA] transition">
               <FiPaperclip size={18} />
             </button>
-            <button className="mx-2 text-softLavender/60 hover:text-softLavender transition">
+            <button className="mx-2 text-[#E6E6FA]/60 hover:text-[#E6E6FA] transition">
               <FaMicrophone size={18} />
             </button>
             <button
               onClick={sendMessage}
-              className="mx-2 text-softLavender/60 hover:text-softLavender transition"
+              className="mx-2 text-[#E6E6FA]/60 hover:text-[#E6E6FA] transition"
             >
               <LuSend size={18} />
             </button>
@@ -179,9 +180,9 @@ const Message = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="w-1/5 bg-deepViolet/40 backdrop-blur-md rounded-xl p-4 max-h-screen border border-softLavender/10 shadow-lg flex flex-col"
+          className="w-1/5 bg-[#5E2B6D]/40 backdrop-blur-md rounded-xl p-4 max-h-screen border border-[#E6E6FA]/10 shadow-lg flex flex-col"
         >
-          <h2 className="text-softLavender text-lg font-semibold mb-2">
+          <h2 className="text-[#E6E6FA] text-lg font-semibold mb-2">
             Contacts
           </h2>
           <div className="overflow-y-auto flex-1">

@@ -32,9 +32,9 @@ const AI = (props: Props) => {
       exit={{ opacity: 0, y: 50 }}
       className="fixed bottom-0 left-0 w-full flex justify-center p-4"
     >
-      <div className="w-full max-w-[700px] bg-[#131826] p-4 rounded-2xl flex flex-col shadow-lg border border-[#252D44]">
+      <div className="w-full max-w-[700px] bg-deepViolet p-4 rounded-2xl flex flex-col shadow-lg border border-deepViolet">
         <textarea
-          className="w-full bg-[#1A2238] text-[#D0D3E0] resize-none outline-none placeholder-gray-500 p-2 rounded-lg"
+          className="w-full bg-deepViolet text-softLavender resize-none outline-none placeholder-[#D0D3E0] p-2 rounded-lg"
           placeholder="Message Agenda..."
           rows={3}
           value={message}
@@ -45,14 +45,14 @@ const AI = (props: Props) => {
         <div className="mt-4 flex justify-between items-center">
           <div className="flex gap-2 sm:gap-3">
             <motion.button
-              className="flex items-center gap-2 text-[#D0D3E0] border border-[#252D44] px-3 py-2 sm:px-4 sm:py-2 rounded-3xl bg-[#1A2238] hover:bg-[#2B3555] transition"
+              className="flex items-center gap-2 text-softLavender border border-deepViolet px-3 py-2 sm:px-4 sm:py-2 rounded-3xl bg-deepViolet hover:bg-pastelPlum transition"
               whileHover={{ scale: 1.1 }}
             >
               <LuListTodo className="text-xl" />
               <span className="hidden sm:inline">Make a task</span>
             </motion.button>
             <motion.button
-              className="flex items-center gap-2 text-[#D0D3E0] border border-[#252D44] px-3 py-2 sm:px-4 sm:py-2 rounded-3xl bg-[#1A2238] hover:bg-[#2B3555] transition"
+              className="flex items-center gap-2 text-softLavender border border-deepViolet px-3 py-2 sm:px-4 sm:py-2 rounded-3xl bg-deepViolet hover:bg-pastelPlum transition"
               whileHover={{ scale: 1.1 }}
             >
               <MdHandshake className="text-xl" />
@@ -60,7 +60,7 @@ const AI = (props: Props) => {
             </motion.button>
           </div>
 
-          <div className="flex gap-2 sm:gap-3 text-[#D0D3E0] text-xl">
+          <div className="flex gap-2 sm:gap-3 text-softLavender text-xl">
             <motion.div whileHover={{ scale: 1.2 }}>
               <FiPaperclip className="cursor-pointer hover:text-gray-500 transition" />
             </motion.div>
