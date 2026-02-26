@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@hookform/resolvers": "2.x",
+    "@hookform/resolvers": "5.x",
     "axios": "^1.8.4",
     "framer-motion": "^12.5.0",
     "lucide-react": "^0.475.0",
